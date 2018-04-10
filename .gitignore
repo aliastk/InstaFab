@@ -3,6 +3,5 @@ cache/
 databases/*
 errors/
 sessions/
-private/
 uploads/*
 .hg/
