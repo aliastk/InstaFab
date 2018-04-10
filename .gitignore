@@ -1,7 +1,10 @@
-*.pyc
-cache/
+cache/*
 databases/*
-errors/
-sessions/
+errors/*
+sessions/*
 uploads/*
-.hg/
+*.pyc
+*~
+.sass-cache
+.sass-cache/*
+

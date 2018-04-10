@@ -20,8 +20,8 @@
 # YOU CAN COPY THIS FILE TO ANY APPLICATION'S ROOT DIRECTORY WITHOUT CHANGES!
 # ----------------------------------------------------------------------------------------------------------------------
 
-from gluon.fileutils import abspath
-from gluon.languages import read_possible_languages
+from fileutils import abspath
+from languages import read_possible_languages
 
 possible_languages = read_possible_languages(abspath('applications', app))
 # ----------------------------------------------------------------------------------------------------------------------
