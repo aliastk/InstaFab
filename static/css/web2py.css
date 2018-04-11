@@ -1,4 +1,4 @@
-header a {color: white; font-size:1.1em}
+header a {font-size:1.1em}
 main {min-height: 70vh}
 table {color: black}
 .form-group {padding-bottom: 10px !important;}
@@ -26,7 +26,7 @@ div.w2p_flash {
     font-weight:bold;
     display:none;
     padding:20px 20px 20px 50px;
-    width:100%;    
+    width:100%;
     opacity:0.95;
     vertical-align:middle;
     cursor:pointer;

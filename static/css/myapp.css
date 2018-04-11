@@ -2,3 +2,13 @@
 .colorful {
   color: #bb8833;
 }
+.PrimaryColor{
+  background-color: #70FFF0;
+  color:black;
+}
+.menu>li>a {color:black}
+.menu>li>a:not(.btn):not(.noeffect):hover {color:black}
+.menu>li>a:not(.btn):not(.noeffect):after {background-color:#fff7c8}
+a {color:blue}
+a:not(.btn):not(.noeffect):hover {color:blue}
+a:not(.btn):not(.noeffect):after {background-color:#fff7c8}
