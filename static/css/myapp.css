@@ -6,9 +6,29 @@
   background-color: #70FFF0;
   color:black;
 }
-.menu>li>a {color:black}
-.menu>li>a:not(.btn):not(.noeffect):hover {color:black}
-.menu>li>a:not(.btn):not(.noeffect):after {background-color:#fff7c8}
-a {color:blue}
-a:not(.btn):not(.noeffect):hover {color:blue}
-a:not(.btn):not(.noeffect):after {background-color:#fff7c8}
+.menu>li{
+  padding:5px;
+}
+footer{
+  position: absolute;
+  bottom:0%;
+}
+li>a{
+  color:black
+}
+li>a:not(.btn):not(.noeffect):hover {
+  color:white;
+}
+li>a:not(.btn):not(.noeffect):after {background-color:rgba(0, 0, 0, 0.0001)}
+li:not(.btn):not(.noeffect):hover {
+    background-color:#32ddcb;
+    border-bottom: 2px solid white;
+}
+li:not(.btn):not(.noeffect):hover>a{
+    color:white;
+}
+.btn, button, [type=button], [type=submit] {background-color:#26a69a; color:white}
+.progress .determinate {background-color:#26a69a}
+.progress .indeterminate {background-color:#26a69a}
+.tags > span {background-color: #26a69a}
+.tags.dismissible > span.off:hover {background-color:#26a69a}
