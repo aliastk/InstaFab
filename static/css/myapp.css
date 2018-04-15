@@ -6,6 +6,9 @@
   background-color: #70FFF0;
   color:black;
 }
+.menu a{
+  font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif;
+}
 .menu>li{
   padding:5px;
 }
