@@ -31,6 +31,7 @@ def user():
     http://..../[app]/default/user/retrieve_password
     http://..../[app]/default/user/change_password
     http://..../[app]/default/user/bulk_register
+    http://..../[app]/default/user/verify_email
     use @auth.requires_login()
         @auth.requires_membership('group name')
         @auth.requires_permission('read','table name',record_id)
@@ -57,5 +58,3 @@ def call():
     supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv
     """
     return service()
-
-

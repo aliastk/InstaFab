@@ -66,7 +66,8 @@ service = Service()
 plugins = PluginManager()
 
 # create all tables needed by auth if not custom tables
-auth.define_tables(username=False, signature=False)
+auth.define_tables(username=True, signature=False)
+
 
 # configure email
 mail = auth.settings.mailer
@@ -80,6 +81,9 @@ mail.settings.ssl = myconf.get('smtp.ssl') or False
 auth.settings.registration_requires_verification = False
 auth.settings.registration_requires_approval = False
 auth.settings.reset_password_requires_verification = True
+auth.settings.login_after_registration = True
+
+
 
 # More API examples for controllers:
 #
