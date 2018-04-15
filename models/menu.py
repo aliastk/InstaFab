@@ -28,13 +28,19 @@ response.google_analytics_id = None
 # this is the main application menu add/remove items as required
 # ----------------------------------------------------------------------------------------------------------------------
 
-response.menu = [
-    (T('Home'), False, URL('default', 'index'), []),
-    (T('My Favorites'), False, URL('default', 'index'), []),
-    (T('My Outfits'), False, URL('default', 'index'), []),
-]
+# https://groups.google.com/forum/#!topic/web2py/9dcvdMu6Vng was used for reference
+if auth.is_logged_in ():
+    response.menu = [
+        (T('Home'), False, URL('default', 'index'), []),
+        (T('My Favorites'), False, URL('default', 'index'), []),
+        (T('My Outfits'), False, URL('default', 'index'), [])
+    ]
+else:
+    response.menu = [
+        (T('Home'), False, URL('default', 'index'), [])
+    ]
 
-DEVELOPMENT_MENU = True
+DEVELOPMENT_MENU = False
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -54,6 +60,7 @@ def _():
         (T('My Sites'), False, URL('admin', 'default', 'site')),
 
     ]
+
 
 
 if DEVELOPMENT_MENU:
