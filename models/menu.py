@@ -31,13 +31,14 @@ response.google_analytics_id = None
 # https://groups.google.com/forum/#!topic/web2py/9dcvdMu6Vng was used for reference
 if auth.is_logged_in ():
     response.menu = [
-        (T('Home'), False, URL('default', 'index'), []),
+        (CAT(I(_class='fa fa-diamond'), T(' InstaFab')), False, URL('default', 'index')),
+        (T('Feed'), False, URL('default', 'index'), []),
         (T('My Favorites'), False, URL('default', 'index'), []),
         (T('My Outfits'), False, URL('default', 'index'), [])
     ]
 else:
     response.menu = [
-        (T('Home'), False, URL('default', 'index'), [])
+        (CAT(I(_class='fa fa-diamond'), T(' InstaFab')), False, URL('default', 'index')),
     ]
 
 DEVELOPMENT_MENU = False
