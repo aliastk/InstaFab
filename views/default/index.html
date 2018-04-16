@@ -3,14 +3,16 @@
 {{block head}}
 {{end}}
 
-<div class="main_content">
+<div class="main_content container">
 
   {{if auth.user is not None:}}
 
     <p> <a class = "btn navy" href ="{{=URL('default','add')}}">Make A Post! {{db.Posts}}</a> </p>
     {{for post in Posts:}}
-      <div class = "MSG">{{=post.MyMessage}}</div>
-      <div class = "Author"> Posted by <a>{{=post.PostedBy}}</a></div>
+      <div class = "third">
+        <div class = "MSG">{{=post.MyMessage}}</div>
+        <div class = "Author"> Posted by <a>{{=post.PostedBy}}</a></div>
+      </div>
     {{pass}}
 
   {{else:}}

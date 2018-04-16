@@ -20,6 +20,6 @@ def GetUserID():
 
 db.define_table('Posts',
                 Field('MyMessage', 'text'),
-                Field('PostedBy', default = GetUserID()),
-                Field('CreatedOn', 'datetime', update = datetime.datetime.utcnow())
+                Field('PostedBy',writable = False,default = GetUserID()),
+                Field('CreatedOn', 'datetime',writable= False, readable = False, default = datetime.datetime.utcnow())
                 )
