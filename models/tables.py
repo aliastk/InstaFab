@@ -12,3 +12,14 @@
 
 # after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
+import datetime
+
+def GetUserID():
+    return auth.user.username if auth.user is not None else None
+
+
+db.define_table('Posts',
+                Field('MyMessage', 'text'),
+                Field('PostedBy', default = GetUserID()),
+                Field('CreatedOn', 'datetime', update = datetime.datetime.utcnow())
+                )
