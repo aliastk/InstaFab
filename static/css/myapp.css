@@ -12,10 +12,6 @@
 .menu>li{
   padding:5px;
 }
-footer{
-  position: absolute;
-  bottom:0%;
-}
 li>a{
   color:black
 }

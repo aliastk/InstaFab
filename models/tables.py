@@ -19,6 +19,7 @@ def GetUserID():
 
 
 db.define_table('Posts',
+                Field('Picture','upload'),
                 Field('MyMessage', 'text'),
                 Field('PostedBy',writable = False,default = GetUserID()),
                 Field('CreatedOn', 'datetime',writable= False, readable = False, default = datetime.datetime.utcnow())
