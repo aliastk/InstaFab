@@ -12,6 +12,20 @@
 .menu>li{
   padding:5px;
 }
+
+
+/* this where i'm gonna style the author*/
+.Author{
+
+}
+
+.ImageCard{
+
+}
+
+.blogpost{
+  border: gray solid 5px;
+}
 li>a{
   color:black
 }
