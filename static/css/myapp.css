@@ -20,7 +20,7 @@
 
 /* this where i'm gonna style the author*/
 .Author{
-
+  padding: 5%;
 }
 
 .UploadedImage{
@@ -46,10 +46,14 @@
   background-size: 50px 50px;
   margin: 10%;
   padding:10%;
+  /* This rounds the outer card edges. */
+  border-radius: 20px;
 }
 .blogpost{
   background-color: #F9F9F9;
-  border: gray solid 2px;
+/*  border: gray solid 2px; */
+/* This rounds the outer card edges. */
+  border-radius: 20px;
 }
 .MSG{
   padding-left: 30px;
