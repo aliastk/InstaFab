@@ -62,9 +62,9 @@
   border-radius: 20px;
 }
 .FavButton{
-  text-align: right;
   position: absolute;
-  padding: 1%;
+  padding-left: 17%;
+  padding-top: 0.9%;
 
 }
 .MSG{
