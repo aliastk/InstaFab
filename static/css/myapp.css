@@ -14,18 +14,33 @@
 }
 
 
+
 /* this where i'm gonna style the author*/
 .Author{
 
 }
 
-.ImageCard{
+.UploadedImage{
+  padding: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 
 }
-
+.OuterCard{
+  background-color: blue;
+  margin: 10%;
+  padding:10%;
+}
 .blogpost{
-  border: gray solid 5px;
+  background-color: orange;
+  border: gray solid 2px;
 }
+.MSG{
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
 li>a{
   color:black
 }
