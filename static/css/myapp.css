@@ -70,11 +70,15 @@
   padding-left: 17%;
   padding-top: 0.9%;
 }
+.LikeButton{
+  padding: 5%;
+}
 .MSG{
   padding-left: 5%;
   padding-right: 5%;
   font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif;
   font-size: 13px;
+  text-align: center;
 }
 
 li>a{
