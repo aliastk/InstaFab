@@ -13,6 +13,9 @@
   padding:5px;
 }
 
+.MainBackgroundColor{
+  background-color: #EDE4E4;
+}
 
 
 /* this where i'm gonna style the author*/
@@ -27,13 +30,25 @@
   margin-right: auto;
 
 }
+/* Reference: */
+/* http://lea.verou.me/css3patterns/#horizontal-stripes */
+/* This is where the design of the stripes come from. */
 .OuterCard{
-  background-color: blue;
+  background-color: gray;
+  /*background-image: linear-gradient(transparent 50%, rgba(255,255,255,.5) 50%);*/
+  background: repeating-linear-gradient(
+  180deg,
+  #FFFFFF,
+  #FFFFFF 5px,
+  #A1A1A1 5px,
+  #A1A1A1 20px
+);
+  background-size: 50px 50px;
   margin: 10%;
   padding:10%;
 }
 .blogpost{
-  background-color: orange;
+  background-color: #F9F9F9;
   border: gray solid 2px;
 }
 .MSG{
