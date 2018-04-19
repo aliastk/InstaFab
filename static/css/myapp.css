@@ -32,6 +32,7 @@
 }
 /* Reference: */
 /* http://lea.verou.me/css3patterns/#horizontal-stripes */
+/* https://css-tricks.com/stripes-css/ */
 /* This is where the design of the stripes come from. */
 .OuterCard{
   background-color: gray;
@@ -54,7 +55,17 @@
 /*  border: gray solid 2px; */
 /* This rounds the outer card edges. */
   padding: 5%;
+  margin-left: -5%;
+  margin-right: -5%;
+  margin-top: -5%;
+  margin-bottom: -5%;
   border-radius: 20px;
+}
+.FavButton{
+  text-align: right;
+  position: absolute;
+  padding: 1%;
+
 }
 .MSG{
   padding-left: 5%;
