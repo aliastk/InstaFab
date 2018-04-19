@@ -39,9 +39,9 @@
   background: repeating-linear-gradient(
   180deg,
   #FFFFFF,
-  #FFFFFF 5px,
-  #A1A1A1 5px,
-  #A1A1A1 20px
+  #FFFFFF 10px,
+  #A1A1A1 10px,
+  #A1A1A1 25px
 );
   background-size: 50px 50px;
   margin: 10%;
@@ -53,6 +53,7 @@
   background-color: #F9F9F9;
 /*  border: gray solid 2px; */
 /* This rounds the outer card edges. */
+  padding: 5%;
   border-radius: 20px;
 }
 .MSG{
