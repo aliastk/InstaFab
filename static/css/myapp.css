@@ -20,7 +20,11 @@
 
 /* this where i'm gonna style the author*/
 .Author{
+  font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif;
   padding: 5%;
+}
+.Author>a{
+  color: black;
 }
 
 .UploadedImage{
@@ -69,6 +73,8 @@
 .MSG{
   padding-left: 5%;
   padding-right: 5%;
+  font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif;
+  font-size: 13px;
 }
 
 li>a{
