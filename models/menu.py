@@ -34,7 +34,7 @@ if auth.is_logged_in ():
         (CAT(I(_class='fa fa-diamond'), T(' InstaFab')), False, URL('default', 'index')),
         (T('Feed'), False, URL('default', 'index'), []),
         (T('My Favorites'), False, URL('default', 'index'), []),
-        (T('My Outfits'), False, URL('default', 'index'), [])
+        (T('My Lookbook'), False, URL('default', 'Lookbook'), [])
     ]
 else:
     response.menu = [

@@ -4,7 +4,10 @@
 {{end}}
 
 <div class="main_content container">
-    <p> <a class = "btn navy" href ="{{=URL('default','add')}}">Front Page! {{db.Posts}}</a> </p>
+
+  {{if auth.user is not None:}}
+
+    <p> <a class = "btn navy" href ="{{=URL('default','add')}}">Make A Post! {{db.Posts}}</a> </p>
     {{for post in Posts:}}
 
       <div class = "third">
@@ -24,6 +27,11 @@
     </div>
 
     {{pass}}
+
+  {{else:}}
+    <h1> Not logged in </h1>
+
+  {{pass}}
 
 
   <!-- Here goes your main HTML code. -->

@@ -18,6 +18,19 @@ def index():
     return auth.wiki()
     """
     Posts = None
+    Posts = db().select(db.Posts.ALL)
+
+    return dict(Posts = Posts)
+
+def Lookbook():
+    """
+    example action using the internationalization operator T and flash
+    rendered by views/default/index.html or views/generic.html
+
+    if you need a simple wiki simply replace the two lines below with:
+    return auth.wiki()
+    """
+    Posts = None
     if auth.user is not None:
         Posts = db(db.Posts.PostedBy == auth.user.username).select()
 

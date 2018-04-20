@@ -3,6 +3,9 @@
 <div class = "MyContent">
   <h1> New Post </h1>
 
-  {{=form}}
-
+  {{=form.custom.begin}}
+  <div>{{=form.custom.widget.MyMessage}}</div>
+  <div>{{=form.custom.widget.Picture}}</div>
+  {{=form.custom.submit}}
+  {{=form.custom.end}}
 </div>
