@@ -17,6 +17,9 @@
   background-color: #EDE4E4;
 }
 
+.ButtonArea{
+  font-size: 1.5em;
+}
 
 /* this where i'm gonna style the author*/
 .Author{
@@ -66,12 +69,17 @@
   border-radius: 20px;
 }
 .FavButton{
-  position: absolute;
+  /* position: absolute;
   padding-left: 17%;
-  padding-top: 0.9%;
+  padding-top: 0.9%;*/
+  float: right;
+  font-size: 1.5em !important;
 }
 .LikeButton{
   padding: 5%;
+}
+.button{
+
 }
 .MSG{
   padding-left: 5%;
