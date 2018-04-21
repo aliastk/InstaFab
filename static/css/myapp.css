@@ -75,7 +75,19 @@
   padding-left: 17%;
   padding-top: 0.9%;*/
   float: right;
-  font-size: 1.5em !important;
+  cursor: pointer;
+  color: pink;
+}
+.FavButton>i{
+  font-size: 1.75em
+}
+.FavButton input[type="checkbox"],
+.FavButton .checked {display: none;}
+.FavButton input[type="checkbox"]:checked ~ .checked{
+  display: block;
+}
+.FavButton input[type="checkbox"]:checked ~ .unchecked{
+  display: none;
 }
 .LikeButton{
   padding: 5%;
