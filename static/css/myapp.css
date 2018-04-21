@@ -57,7 +57,7 @@
   margin: 10%;
   padding:10%;
   /* This rounds the outer card edges. */
-  border-radius: 20px;
+  border-radius: 30px;
 }
 .blogpost{
   background-color: #F9F9F9;
@@ -68,7 +68,7 @@
   margin-right: -5%;
   margin-top: -5%;
   margin-bottom: -5%;
-  border-radius: 20px;
+  border-radius: 30px;
 }
 .FavButton{
   /* position: absolute;
