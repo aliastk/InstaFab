@@ -64,10 +64,10 @@
 /*  border: gray solid 2px; */
 /* This rounds the outer card edges. */
   padding: 5%;
-  margin-left: -5%;
-  margin-right: -5%;
-  margin-top: -5%;
-  margin-bottom: -5%;
+  margin-left: -8%;
+  margin-right: -8%;
+  margin-top: -8%;
+  margin-bottom: -8%;
   border-radius: 30px;
 }
 .FavButton{
