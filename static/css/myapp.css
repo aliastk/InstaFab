@@ -84,13 +84,22 @@
 .FavButton input[type="checkbox"],
 .FavButton .checked {display: none;}
 .FavButton input[type="checkbox"]:checked ~ .checked{
-  display: block;
+  display: inline-block;
 }
 .FavButton input[type="checkbox"]:checked ~ .unchecked{
   display: none;
 }
 .LikeButton{
   padding: 5%;
+  cursor: pointer;
+}
+.LikeButton input[type="checkbox"],
+.LikeButton .checked {display: none;}
+.LikeButton input[type="checkbox"]:checked ~ .checked{
+  display: inline-block;
+}
+.LikeButton input[type="checkbox"]:checked ~ .unchecked{
+  display: none;
 }
 .button{
 
