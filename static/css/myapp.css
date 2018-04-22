@@ -101,6 +101,17 @@
 .LikeButton input[type="checkbox"]:checked ~ .unchecked{
   display: none;
 }
+.UnlikeButton{
+  cursor: pointer;
+}
+.UnlikeButton input[type="checkbox"],
+.UnlikeButton .checked {display: none;}
+.UnlikeButton input[type="checkbox"]:checked ~ .checked{
+  display: inline-block;
+}
+.UnlikeButton input[type="checkbox"]:checked ~ .unchecked{
+  display: none;
+}
 .button{
 
 }
