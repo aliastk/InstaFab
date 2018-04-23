@@ -10,24 +10,16 @@
       <div class = "third">
         <div class = "OuterCard">
         <div class = "blogpost">
-
+          <label class="FavButton">
+            <input type ="checkbox">
+            <i class="fa fa-heart-o unchecked"></i>
+            <i class="fa fa-heart checked"></i>
+          </label>
           <!---<div class="LikeButton">
 
           </div> -->
 
-          <div class = "Author"><a>{{=post.PostedBy}}</a>
-            {{if post.PostedBy != auth.user.username:}}
-            <label class="FavButton">
-              <input type ="checkbox">
-              <i class="fa fa-heart-o unchecked"></i>
-              <i class="fa fa-heart checked"></i>
-            </label>
-            {{else:}}
-            <a class="EditPost" href="{{=URL('default', 'edit', args=[post.id])}}">
-                <i class="fa fa-edit fa-lg"></i>
-            </a>
-            {{pass}}
-          </div>
+          <div class = "Author"><a>{{=post.PostedBy}}</a></div>
           <img class = "UploadedImage" src="{{=URL('default', 'download', args= post.Picture)}}" />
           <div class = "MSG">{{=post.MyMessage}}</div>
           <div class="ButtonArea">
