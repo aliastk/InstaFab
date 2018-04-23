@@ -4,24 +4,35 @@
 {{end}}
 
 <div class="main_content container">
+  {{if auth.user is not None:}}
     <p> <a class = "btn navy" href ="{{=URL('default','add')}}">Front Page! {{db.Posts}}</a> </p>
     {{for post in Posts:}}
 
       <div class = "third">
         <div class = "OuterCard">
         <div class = "blogpost">
-          <label class="FavButton">
-            <input type ="checkbox">
-            <i class="fa fa-heart-o unchecked"></i>
-            <i class="fa fa-heart checked"></i>
-          </label>
+
           <!---<div class="LikeButton">
 
           </div> -->
 
-          <div class = "Author"><a>{{=post.PostedBy}}</a></div>
+          <div class = "Author"><a>{{=post.PostedBy}}</a>
+            {{if post.PostedBy == auth.user.username:}}
+            <a class="EditPost" href="{{=URL('default', 'edit', args=[post.id])}}">
+                <i class="fa fa-edit fa-lg"></i>
+            </a>
+            {{else:}}
+            <label class="FavButton">
+              <input type ="checkbox">
+              <i class="fa fa-heart-o unchecked"></i>
+              <i class="fa fa-heart checked"></i>
+            </label>
+            {{pass}}
+          </div>
           <img class = "UploadedImage" src="{{=URL('default', 'download', args= post.Picture)}}" />
           <div class = "MSG">{{=post.MyMessage}}</div>
+
+
           <div class="ButtonArea">
             <label class = "LikeButton">
               <input type="checkbox">
@@ -35,7 +46,7 @@
             </label>
 
             <a>
-              <i class="ShoppingIcon fa fa-shopping-cart"></i>
+              <i class="ShoppingIcon fa fa-shopping-basket"></i>
             </a>
 
             <a class="btn rounded red" href="{{=URL('default', 'delete', args=[post.id], user_signature=True)}}">
@@ -47,6 +58,53 @@
       </div>
     </div>
 
+    {{pass}}
+
+
+    {{else:}}
+    {{for post in Posts:}}
+
+      <div class = "third">
+        <div class = "OuterCard">
+        <div class = "blogpost">
+
+          <!---<div class="LikeButton">
+
+          </div> -->
+
+          <div class = "Author"><a>{{=post.PostedBy}}</a>
+
+          </div>
+          <img class = "UploadedImage" src="{{=URL('default', 'download', args= post.Picture)}}" />
+          <div class = "MSG">{{=post.MyMessage}}</div>
+
+
+          <div class="ButtonArea">
+            <label class = "LikeButton">
+              <input type="checkbox">
+              <i class="fa fa-thumbs-o-up unchecked"></i>
+              <i class ="fa fa-thumbs-up checked"></i>
+            </label>
+            <label class="UnlikeButton">
+              <input type="checkbox">
+              <i class="fa fa-thumbs-o-down unchecked" aria-hidden="true"></i>
+              <i class="fa fa-thumbs-down checked"></i>
+            </label>
+
+            <a>
+              <i class="ShoppingIcon fa fa-shopping-basket"></i>
+            </a>
+
+            <a class="btn rounded red" href="{{=URL('default', 'delete', args=[post.id], user_signature=True)}}">
+                <i class="fa fa-trash"></i>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    {{pass}}
     {{pass}}
 
 
