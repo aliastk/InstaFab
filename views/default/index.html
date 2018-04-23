@@ -50,8 +50,8 @@
             </a>
             {{if post.PostedBy == auth.user.username:}}
 
-            <a class="btn rounded red" href="{{=URL('default', 'delete', args=[post.id], user_signature=True)}}">
-                <i class="fa fa-trash"></i>
+            <a class="DeletePost" href="{{=URL('default', 'delete', args=[post.id], user_signature=True)}}">
+                <i class="fa fa-trash-o fa-lg"></i>
             </a>
             {{else:}}
             <!-- do not show trash can -->
