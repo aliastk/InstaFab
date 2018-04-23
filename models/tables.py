@@ -22,5 +22,7 @@ db.define_table('Posts',
                 Field('Picture','upload'),
                 Field('MyMessage', 'text'),
                 Field('PostedBy','text',writable = False,default = GetUserID()),
-                Field('CreatedOn', 'datetime',writable= False, readable = False, default = datetime.datetime.utcnow())
+                Field('CreatedOn', 'datetime',writable= False, readable = False, default = datetime.datetime.utcnow()),
+                Field('Likes','integer',writable=False,readable=False,default = 0),
+                Field('Dislikes','integer',writable=False,readable=False,default = 0)
                 )
