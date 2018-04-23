@@ -48,10 +48,14 @@
             <a>
               <i class="ShoppingIcon fa fa-shopping-basket"></i>
             </a>
+            {{if post.PostedBy == auth.user.username:}}
 
             <a class="btn rounded red" href="{{=URL('default', 'delete', args=[post.id], user_signature=True)}}">
                 <i class="fa fa-trash"></i>
             </a>
+            {{else:}}
+            <!-- do not show trash can -->
+            {{pass}}
           </div>
 
         </div>
@@ -86,7 +90,7 @@
             <a>
               <i class="ShoppingIcon fa fa-shopping-basket"></i>
             </a>
-        
+
           </div>
         </div>
       </div>
