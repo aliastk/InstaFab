@@ -66,6 +66,37 @@ def user():
     also notice there is http://..../[app]/appadmin/manage/auth to allow administrator to manage users
     """
     return dict(form=auth())
+@auth.requires_login()
+@auth.requires_signature()
+def delete():
+    if request.args(0) is not None:
+        q = ((db.Posts.PostedBy == auth.user.username) & (db.Posts.id == request.args(0)))
+        db(q).delete()
+    redirect(URL('default', 'index'))
+
+@auth.requires_login()
+def edit():
+    """
+    - "/edit/3" it offers a form to edit a checklist.
+    'edit' is the controller (this function)
+    '3' is request.args[0]
+    """
+    if request.args(0) is None:
+        # We send you back to the general index.
+        redirect(URL('default', 'index'))
+    else:
+        q = ((db.Posts.PostedBy == auth.user.username) &
+             (db.Posts.id == request.args(0)))
+        # I fish out the first element of the query, if there is one, otherwise None.
+        cl = db(q).select().first()
+        if cl is None:
+            session.flash = T('Not Authorized')
+            redirect(URL('default', 'index'))
+        # Always write invariants in your code.
+        # Here, the invariant is that the checklist is known to exist.
+        # Is this an edit form?
+        form = SQLFORM(db.Posts)
+    return dict(form=form)
 
 
 @cache.action()
