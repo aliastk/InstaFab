@@ -92,7 +92,7 @@
   color: pink;
 }
 .FavButton>i{
-  font-size: 1.75em
+  font-size: 1.75em;
 }
 .FavButton input[type="checkbox"],
 .FavButton .checked {display: none;}
