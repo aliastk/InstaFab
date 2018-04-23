@@ -70,6 +70,17 @@
   margin-bottom: -8%;
   border-radius: 30px;
 }
+.EditPost{
+  color: black;
+  float: right;
+  margin-top: -144%;
+  font-size: 89%;
+
+}
+.DeletePost{
+  color: black;
+  font-size: 94%;
+}
 .FavButton{
   /* position: absolute;
   padding-left: 17%;
