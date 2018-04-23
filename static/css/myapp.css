@@ -73,16 +73,15 @@
 .EditPost{
   color: black;
   float: right;
-<<<<<<< Updated upstream
-  font-size: 89%;
-=======
-  margin-top: -143%;
->>>>>>> Stashed changes
+
 
 }
 .DeletePost{
   color: black;
   font-size: 94%;
+}
+.ShoppingIcon{
+  color: red;
 }
 .FavButton{
   /* position: absolute;
