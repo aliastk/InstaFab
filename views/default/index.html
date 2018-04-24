@@ -59,9 +59,7 @@
               <i class="fa fa-thumbs-down checked"></i>
             </label>
 
-            <a>
-              <i class="ShoppingIcon fa fa-shopping-basket"></i>
-            </a>
+
             {{if post.PostedBy == auth.user.username:}}
 
             <a class="DeletePost" href="{{=URL('default', 'delete', args=[post.id], user_signature=True)}}">
@@ -69,6 +67,10 @@
             </a>
             {{else:}}
             <!-- do not show trash can -->
+            <!-- show the shobbing basket icon -->
+              <a>
+                <i class="ShoppingIcon fa fa-shopping-basket"></i>
+              </a>
             {{pass}}
           </div>
 
