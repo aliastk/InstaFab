@@ -11,11 +11,9 @@
       <div class = "third">
         <div class = "OuterCard">
         <div class = "blogpost">
-          <label class="FavButton">
-            <input type ="checkbox">
-            <i class="fa fa-heart-o unchecked"></i>
-            <i class="fa fa-heart checked"></i>
-          </label>
+
+
+
           <!---<div class="LikeButton">
 
           </div> -->
@@ -49,16 +47,18 @@
               <i class="fa fa-thumbs-down checked"></i>
             </label>
 
-            <a>
-              <i class="ShoppingIcon fa fa-shopping-basket"></i>
-            </a>
+
             {{if post.PostedBy == auth.user.username:}}
 
-            <a class="btn rounded red" href="{{=URL('default', 'delete', args=[post.id], user_signature=True)}}">
-                <i class="fa fa-trash"></i>
+            <a class="DeletePost" href="{{=URL('default', 'delete', args=[post.id], user_signature=True)}}">
+                <i class="fa fa-trash-o fa-lg"></i>
             </a>
             {{else:}}
             <!-- do not show trash can -->
+            <!-- show the shobbing basket icon -->
+              <a>
+                <i class="ShoppingIcon fa fa-shopping-basket"></i>
+              </a>
             {{pass}}
           </div>
 
