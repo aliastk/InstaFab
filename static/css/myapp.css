@@ -21,6 +21,12 @@
   font-size: 1.5em;
 }
 
+.Button{
+  display: inline-block;
+  width:33%;
+  margin-left: 5%;
+}
+
 /* this where i'm gonna style the author*/
 .Author{
   font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif;
@@ -102,8 +108,9 @@
 .FavButton input[type="checkbox"]:checked ~ .unchecked{
   display: none;
 }
+
 .LikeButton{
-  padding: 5%;
+  padding-left: 10%;
   cursor: pointer;
 }
 .LikeButton input[type="checkbox"],
@@ -115,6 +122,8 @@
   display: none;
 }
 .UnlikeButton{
+  padding-left: 5%;
+  padding-right: 5%;
   cursor: pointer;
 }
 .UnlikeButton input[type="checkbox"],

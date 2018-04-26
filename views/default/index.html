@@ -35,19 +35,25 @@
           <div class = "MSG">{{=post.MyMessage}}</div>
 
 
-          <div class="ButtonArea">
+          <div class="ButtonArea container">
+            <div class = "Button">
             <label class = "LikeButton">
-              <input type="checkbox">
-              <i class="fa fa-thumbs-o-up unchecked"></i>
-              <i class ="fa fa-thumbs-up checked"></i>
-            </label>
+                <input type="checkbox">
+                <i class="fa fa-thumbs-o-up unchecked"></i>
+                <i class ="fa fa-thumbs-up checked"></i>
+              </label>
+              123
+            </div>
+            <div class = "Button">
             <label class="UnlikeButton">
               <input type="checkbox">
               <i class="fa fa-thumbs-o-down unchecked" aria-hidden="true"></i>
               <i class="fa fa-thumbs-down checked"></i>
             </label>
+            23
+          </div>
 
-
+            <div style="display:inline-block">
             {{if post.PostedBy == auth.user.username:}}
 
             <a class="DeletePost" href="{{=URL('default', 'delete', args=[post.id], user_signature=True)}}">
@@ -60,6 +66,7 @@
                 <i class="ShoppingIcon fa fa-shopping-basket"></i>
               </a>
             {{pass}}
+          </div>
           </div>
 
         </div>
@@ -81,19 +88,27 @@
           <img class = "UploadedImage" src="{{=URL('default', 'download', args= post.Picture)}}" />
           <div class = "MSG">{{=post.MyMessage}}</div>
           <div class="ButtonArea">
+            <div class = "Button">
             <label class = "LikeButton">
               <input type="checkbox">
               <i class="fa fa-thumbs-o-up unchecked"></i>
               <i class ="fa fa-thumbs-up checked"></i>
             </label>
+          </div>
+
+          <div class="Button">
             <label class="UnlikeButton">
               <input type="checkbox">
               <i class="fa fa-thumbs-o-down unchecked" aria-hidden="true"></i>
               <i class="fa fa-thumbs-down checked"></i>
             </label>
+          </div>
+
+          <div style="display:inline-block">
             <a>
               <i class="ShoppingIcon fa fa-shopping-basket"></i>
             </a>
+          </div>
 
           </div>
         </div>

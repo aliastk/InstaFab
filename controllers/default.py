@@ -66,6 +66,7 @@ def user():
     also notice there is http://..../[app]/appadmin/manage/auth to allow administrator to manage users
     """
     return dict(form=auth())
+
 @auth.requires_login()
 @auth.requires_signature()
 def delete():
