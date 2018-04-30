@@ -2,13 +2,12 @@
 
 {{block head}}
 {{end}}
-
-<div class="main_content container">
+<link href="{{=URL('static','css/masonry.css')}}" rel="stylesheet" type="text/css"/>
+<div class="main_content container masonry">
   {{if auth.user is not None:}}
-    <p> <a class = "btn navy" href ="{{=URL('default','add')}}">Front Page! {{db.Posts}}</a> </p>
     {{for post in Posts:}}
 
-      <div class = "third">
+      <div class = "post">
         <div class = "OuterCard">
         <div class = "blogpost">
 
@@ -84,7 +83,7 @@
     {{else:}}
     {{for post in Posts:}}
 
-      <div class = "third">
+      <div class = "post">
         <div class = "OuterCard">
         <div class = "blogpost">
           <div class = "Author"><a>{{=post.PostedBy}}</a>
