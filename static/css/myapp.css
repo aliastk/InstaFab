@@ -177,6 +177,7 @@
 }
 .small_profile{
   background-color: #D1CDCD;
+  border: white solid thin;
 }
 
 li>a{
