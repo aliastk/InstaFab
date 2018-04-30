@@ -14,8 +14,7 @@
   {{=form.custom.end}}
 -->
     {{=form.custom.begin}}
-    <div id="add-div" class = "third" style = "margin-right:auto;margin-left:auto;">
-      <form action="#" v-on:submit.prevent class="form-horizontal" enctype="multipart/form-data" method="post">
+    <div  id="add-div" class = "third" style = "margin-right:auto;margin-left:auto;">
         <div class = "OuterCard">
           <div class = "blogpost">
 
@@ -25,20 +24,19 @@
             <div class = "UploadImage">
               <label>
                 <i class = "fa fa-camera"></i>
-                <input id="Posts_Picture" name="Picture" type="file" style="display:none">
+                <input class="upload input-file" id="Posts_Picture" name="Picture" type="file" style="display:None">
               </label>
-              
+
             </div>
             <div class = "EnterMSG">
-              <input type="text" v-model="message" placeholder="Enter a message here"/>
+              <textarea class="text form-control" cols="40" id="Posts_MyMessage" name="MyMessage" rows="10" v-model="message" placeholder="Enter a message here"></textarea>
             </div>
-            <div class = "EnterTag"></div>
+            <div class = "EnterTag">
+              <textarea cols="40" id="Posts_Tags" name="Tags" rows="1" class="text form-control" placeholder="#tags #example"></textarea>
+            </div>
             <div class = "SubmitButton">{{=form.custom.submit}}</div>
-
-
         </div>
       </div>
-    </form>
   </div>
   {{=form.custom.end}}
 </div>

@@ -24,7 +24,6 @@ var app = function() {
     // The submit button to add a track has been added.
     $.post(add_track_url, {
         MyMessage: self.vue.form_message,
-        Picture: self.vue.form_pic,
       },
       function(data) {
         $.web2py.enableElement($("#add_track_submit"));
@@ -38,7 +37,6 @@ var app = function() {
     delimiters: ['${', '}'],
     unsafeDelimiters: ['!{', '}'],
     data: {
-      pic: null,
       message: null
     },
     methods: {

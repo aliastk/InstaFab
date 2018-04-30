@@ -43,7 +43,6 @@ def add():
         redirect(URL('default','index'))
     elif form.errors:
         session.flash = T('Please correct the info')
-
     return dict(form = form)
 
 
