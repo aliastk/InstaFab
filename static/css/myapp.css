@@ -79,6 +79,8 @@
 .EditPost{
   color: black;
   float: right;
+  padding-top: 7%;
+  padding-right: 6px;
 
 
 }
@@ -99,6 +101,8 @@
 }
 .FavButton>i{
   font-size: 1.75em;
+  padding-top: 18%;
+  padding-right: 6px;
 }
 .FavButton input[type="checkbox"],
 .FavButton .checked {display: none;}
