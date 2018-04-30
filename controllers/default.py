@@ -37,7 +37,7 @@ def Lookbook():
     return dict(Posts = Posts)
 
 def add():
-    form = SQLFORM(db.Posts)
+    form = SQLFORM(db.Posts,upload=URL('download'))
     if form.process().accepted:
         session.flash = T("Post added")
         redirect(URL('default','index'))
