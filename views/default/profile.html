@@ -6,15 +6,17 @@
 
 <div class="main_content container">
   <div class="small_profile quarter">
-    
+    <div class="text_font">
+  
     <img class="profile_pic" src="{{=URL('default', 'download', args= auth.user.profile_pic)}}"/>
 
-    <div class="first_name">
-      {{=auth.user.first_name}}
+    <div class="full_name">
+
+      {{=auth.user.first_name + " " +auth.user.last_name }}
+
+
     </div>
-    <div class="last_name">
-      {{=auth.user.last_name}}
-    </div>
+
     <div class="bio">
       {{=auth.user.bio}}
     </div>
@@ -34,5 +36,6 @@
     <div class="phone_number">
       {{=auth.user.phone_number}}
     </div>
+  </div>
   </div>
 </div>

@@ -54,6 +54,17 @@
   padding-top: 6%;
   padding-left: 7%;
   padding-right: 0%;
+
+}
+.text_font{
+  font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif;
+}
+
+.full_name{
+  font-size: 31px;
+  padding-bottom: 4%;
+  padding-left: 4%;
+  text-align: center;
 }
 /* Reference: */
 /* http://lea.verou.me/css3patterns/#horizontal-stripes */
