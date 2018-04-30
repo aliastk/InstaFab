@@ -85,6 +85,7 @@ auth.settings.login_after_registration = True
 
 
 
+
 # More API examples for controllers:
 #
 # >>> db.mytable.insert(myfield='value')
