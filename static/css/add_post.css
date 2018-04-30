@@ -1,0 +1,12 @@
+.EnterTag{
+  margin-top: 20px;
+}
+.SubmitButton{
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+.UploadImage{
+  display: flex;
+  justify-content: center;
+}
