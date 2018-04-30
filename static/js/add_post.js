@@ -1,6 +1,7 @@
 var app = function() {
 
   var self = {};
+  var tag = null;
   //var message = null;
   //var pic = null;
   Vue.config.silent = false; // show all warnings
@@ -37,7 +38,8 @@ var app = function() {
     delimiters: ['${', '}'],
     unsafeDelimiters: ['!{', '}'],
     data: {
-      message: null
+      message: null,
+      tag: null
     },
     methods: {
 
