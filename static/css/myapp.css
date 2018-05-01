@@ -56,8 +56,14 @@
   padding-right: 0%;
 
 }
-.text_font{
+.text_settings{
   font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif;
+
+}
+.bio{
+  font-size: 14px;
+  text-align: center;
+  padding-bottom: 4%;
 }
 
 .full_name{
