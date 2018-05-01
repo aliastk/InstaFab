@@ -1,7 +1,9 @@
 {{extend 'layout.html'}}
 {{block head}}
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
+<script src="{{=URL('static', 'js/dropzone.js')}}"></script>
 <link href="{{=URL('static','css/add_post.css')}}" rel="stylesheet" type="text/css"/>
+<link href="{{=URL('static','css/dropzone.css')}}" rel="stylesheet" type="text/css"/>
 <script>
 
 </script>
@@ -24,14 +26,15 @@
             </div>
             <div class = "UploadImage">
               <label>
-                <!---<i class = "fa fa-camera" style="font-size:2em"></i>
+                <i class = "fa fa-camera" style="font-size:2em"></i>
                 Upload Photo
-                <input class="upload input-file" id="Posts_Picture" name="Picture" type="file" style="display:None">
-              -->
-              {{=form.custom.widget.Picture}}
-              <img src = "{{=URL('download')}}"
+                <input class="upload input-file" id="Posts_Picture" name="Picture" type="file" style="display:None" v-on:change="previewImage" />
               </label>
             </div>
+            <div>
+                <img class="preview" :src="imageData">
+            </div>
+            <div id="myId"> </div>
             <div class = "EnterMSG">
               <textarea class="text form-control" cols="40" id="Posts_MyMessage" name="MyMessage" rows="10" v-model="message" placeholder="Enter a message here"></textarea>
             </div>
@@ -45,3 +48,7 @@
   {{=form.custom.end}}
 </div>
 <script src="{{=URL('static', 'js/add_post.js')}}"></script>
+<script>
+
+
+</script>
