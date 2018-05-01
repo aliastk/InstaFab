@@ -19,7 +19,6 @@ def index():
     """
     Posts = None
     Posts = db().select(db.Posts.ALL)
-
     return dict(Posts = Posts)
 
 def Lookbook():

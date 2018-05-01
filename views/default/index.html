@@ -36,6 +36,12 @@
           <img class = "UploadedImage" src="{{=URL('default', 'download', args= post.Picture)}}" />
           <div class = "MSG">{{=post.MyMessage}}</div>
 
+          <div class="tags">
+            {{SplitTags = post.Tags.split("#")}}
+            {{for tag in SplitTags:}}
+              {{=tag}}
+            {{pass}}
+          </div>
 
           <div class="ButtonArea container">
             <div class = "Button">
@@ -99,6 +105,13 @@
               <i class="fa fa-thumbs-o-up unchecked"></i>
               <i class ="fa fa-thumbs-up checked"></i>
             </label>
+          </div>
+
+          <div class="tags">
+            {{SplitTags = post.Tags.split("#")}}
+            {{for tag in SplitTags:}}
+              {{=tag}}
+            {{pass}}
           </div>
 
           <div class="Button">

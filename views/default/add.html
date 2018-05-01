@@ -39,7 +39,7 @@
               <textarea class="text form-control" cols="40" id="Posts_MyMessage" name="MyMessage" rows="10" v-model="message" placeholder="Enter a message here"></textarea>
             </div>
             <div class = "EnterTag">
-              <textarea cols="40" id="Posts_Tags" name="tag" rows="1" class="text form-control" placeholder="#tags #example"></textarea>
+              {{=form.custom.widget.Tags}}
             </div>
             <div class = "SubmitButton">{{=form.custom.submit}}</div>
         </div>
