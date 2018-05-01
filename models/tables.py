@@ -14,6 +14,7 @@
 # auth.enable_record_versioning(db)
 import datetime
 
+
 def GetUserID():
     return auth.user.username if auth.user is not None else None
 

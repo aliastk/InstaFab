@@ -45,6 +45,33 @@
   padding-top: 1%;
 
 }
+.profile_pic{
+  padding: 12%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 7%;
+  padding-top: 6%;
+  padding-left: 7%;
+  padding-right: 0%;
+
+}
+.text_settings{
+  font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif;
+
+}
+.bio{
+  font-size: 14px;
+  text-align: center;
+  padding-bottom: 4%;
+}
+
+.full_name{
+  font-size: 31px;
+  padding-bottom: 4%;
+  padding-left: 4%;
+  text-align: center;
+}
 /* Reference: */
 /* http://lea.verou.me/css3patterns/#horizontal-stripes */
 /* https://css-tricks.com/stripes-css/ */
@@ -153,6 +180,10 @@
 .PostDate{
   padding-top: 3%;
   font-size: 10px;
+}
+.small_profile{
+  background-color: #D1CDCD;
+  border: white solid thin;
 }
 
 li>a{
