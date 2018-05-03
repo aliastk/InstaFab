@@ -68,7 +68,10 @@
 .info_text{
   font-size: 14px;
 }
+.tag_settings{
+  font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
 
+}
 .full_name{
   font-size: 31px;
   padding-bottom: 4%;
@@ -95,6 +98,7 @@
   /* This rounds the outer card edges. */
   border-radius: 30px;
 }
+
 .blogpost{
   background-color: #F9F9F9;
 /*  border: gray solid 2px; */
@@ -206,5 +210,8 @@ li:not(.btn):not(.noeffect):hover>a{
 .btn, button, [type=button], [type=submit] {background-color:#26a69a; color:white}
 .progress .determinate {background-color:#26a69a}
 .progress .indeterminate {background-color:#26a69a}
-.tags > span {background-color: #26a69a}
+.tags > span {
+  background-color: #DDDBDB;
+  color: black;
+}
 .tags.dismissible > span.off:hover {background-color:#26a69a}

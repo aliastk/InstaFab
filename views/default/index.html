@@ -40,9 +40,11 @@
             {{SplitTags = post.Tags.split("#")}}
             {{for tag in SplitTags:}}
               {{if tag is not "":}}
-              <span>{{=tag}}</span>
+              <span class = "tag_settings">
+                <span>{{=tag}}</span></span>
               {{pass}}
             {{pass}}
+
 
           </div>
 
