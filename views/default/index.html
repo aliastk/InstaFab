@@ -39,8 +39,11 @@
           <div class="tags">
             {{SplitTags = post.Tags.split("#")}}
             {{for tag in SplitTags:}}
-              {{=tag}}
+              {{if tag is not "":}}
+              <span>{{=tag}}</span>
+              {{pass}}
             {{pass}}
+
           </div>
 
           <div class="ButtonArea container">

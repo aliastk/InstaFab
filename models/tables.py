@@ -27,5 +27,5 @@ db.define_table('Posts',
                 Field('Likes','integer',writable=False,readable=False,default = 0),
                 Field('Dislikes','integer',writable=False,readable=False,default = 0),
                 Field('Shopping','text'),
-                Field('Tags','string')
+                Field('Tags','string' , default="all", required=True)
                 )
