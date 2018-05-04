@@ -75,7 +75,8 @@ auth.settings.extra_fields['auth_user'] = [
     Field('profile_pic' , 'upload',default=None),
     Field('occupation' , 'text',default=None),
     Field('bio' , 'text',default=None),
-    Field('bs','text',default=None)
+    Field('bs','text',default=None),
+    Field('likes','list:integer')
 ]
 auth.define_tables(username=True);
 

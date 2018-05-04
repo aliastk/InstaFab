@@ -8,6 +8,10 @@
 # - download is for downloading files uploaded in the db (does streaming)
 # -------------------------------------------------------------------------
 
+def test():
+    Posts = None
+    Posts = db().select(db.Posts.ALL)
+    return dict(Posts = Posts)
 
 def index():
     """
@@ -118,3 +122,35 @@ def call():
 
 def profile():
     return dict(form=auth())
+
+def get_posts():
+    start_idx = int(request.vars.start_idx) if request.vars.start_idx is not None else 0
+    end_idx = int(request.vars.end_idx) if request.vars.end_idx is not None else 0
+    posts = []
+    has_more = False
+    rows = db().select(db.Posts.ALL, limitby=(start_idx, end_idx + 1))
+    for i, r in enumerate(rows):
+        if i < end_idx - start_idx:
+            t = dict(
+                Picture = r.Picture,
+                MyMessage = r.MyMessage,
+                PostedBy = r.PostedBy,
+                CreatedOn = r.CreatedOn.strftime("%B %d, %Y"),
+                Likes = r.Likes,
+                Dislikes = r.Dislikes,
+                Shopping = r.Shopping,
+                Tags = r.tags
+            )
+            posts.append(t)
+        else:
+            has_more = True
+    logged_in = auth.user is not None
+    user = None;
+    if auth.user is not None:
+        user = auth.user.username
+    return response.json(dict(
+        posts=posts,
+        logged_in=logged_in,
+        has_more=has_more,
+        user=user
+    ))

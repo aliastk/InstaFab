@@ -182,6 +182,7 @@
   font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif;
   font-size: 13px;
   text-align: center;
+  word-wrap: break-word;
   padding-bottom: 8%;
 }
 .PostDate{
