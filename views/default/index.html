@@ -3,6 +3,7 @@
 {{block head}}
 {{end}}
 <link href="{{=URL('static','css/masonry.css')}}" rel="stylesheet" type="text/css"/>
+<a href="{{=URL('default','search', args="go")}}">search</a>
 <div class="main_content container masonry">
   {{if auth.user is not None:}}
     {{for post in Posts:}}

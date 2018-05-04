@@ -7,10 +7,15 @@
 # - user is required for authentication and authorization
 # - download is for downloading files uploaded in the db (does streaming)
 # -------------------------------------------------------------------------
+from plugin_haystack import Haystack
 
-def test():
+def search():
     Posts = None
-    Posts = db().select(db.Posts.ALL)
+    if request.args(0) is not None:
+        query = MyIndex.search(PostedBy = request.args(0))
+        Posts = db(query).select()
+    else:
+        Posts = db().select(db.Posts.ALL)
     return dict(Posts = Posts)
 
 def index():
@@ -22,7 +27,11 @@ def index():
     return auth.wiki()
     """
     Posts = None
-    Posts = db().select(db.Posts.ALL)
+    if request.args(0) is not None:
+        query = index.search(request.args(0))
+        Posts = db(query).select()
+    else:
+        Posts = db().select(db.Posts.ALL)
     return dict(Posts = Posts)
 
 def Lookbook():

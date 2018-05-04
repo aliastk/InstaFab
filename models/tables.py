@@ -13,7 +13,7 @@
 # after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
 import datetime
-
+from plugin_haystack import Haystack
 
 def GetUserID():
     return auth.user.username if auth.user is not None else None
@@ -29,3 +29,6 @@ db.define_table('Posts',
                 Field('Shopping','text'),
                 Field('Tags','string' , default="all", required=True)
                 )
+
+MyIndex = Haystack(db.Posts)
+MyIndex.indexes('PostedBy','Tags')

@@ -1,34 +1,48 @@
 {{extend 'layout.html'}}
+
 {{block head}}
 {{end}}
 <link href="{{=URL('static','css/masonry.css')}}" rel="stylesheet" type="text/css"/>
-<div id = "vue-div" class="main_content masonry display:none">
-      <div v-if="logged_in" v-for="post in posts" class = "post">
+<a href="{{=URL('default','search',args="go")}}">search</a>
+<div class="main_content container masonry">
+  {{if auth.user is not None:}}
+    {{for post in Posts:}}
+
+      <div class = "post">
         <div class = "OuterCard">
         <div class = "blogpost">
-          <a v-if="post.PostedBy == user" class="EditPost" href="{{=URL('default', 'edit', args=[post.id])}}">
+
+
+
+          <!---<div class="LikeButton">
+
+          </div> -->
+          {{if post.PostedBy == auth.user.username:}}
+          <a class="EditPost" href="{{=URL('default', 'edit', args=[post.id])}}">
               <i class="fa fa-edit fa-lg"></i>
           </a>
-          <label v-else class="FavButton">
+          {{else:}}
+          <label class="FavButton">
             <input type ="checkbox">
             <i class="fa fa-heart-o unchecked"></i>
             <i class="fa fa-heart checked"></i>
           </label>
+          {{pass}}
 
-          <div class = "Author"><a>${post.PostedBy}}</a>
+          <div class = "Author"><a>{{=post.PostedBy}}</a>
             <!-- https://stackoverflow.com/questions/12605934/formatting-date-in-web2py-python -->
-              <div class= "PostDate">${post.CreatedOn.strftime("%B %d, %Y")}}</div>
+              <div class= "PostDate">{{=post.CreatedOn.strftime("%B %d, %Y")}}</div>
+
           </div>
-          <img class = "UploadedImage" src="{{=URL('default', 'download', args= ${post.Picture}})}}" />
-          <div class = "MSG">${post.MyMessage}}</div>
+          <img class = "UploadedImage" src="{{=URL('default', 'download', args= post.Picture)}}" />
+          <div class = "MSG">{{=post.MyMessage}}</div>
 
           <div class="tags">
             {{SplitTags = post.Tags.split("#")}}
             {{for tag in SplitTags:}}
               {{if tag is not "":}}
-              <span v-for tag class = "tag_settings">
-                <span>{{=tag}}</span>
-              </span>
+              <span class = "tag_settings">
+                <span>{{=tag}}</span></span>
               {{pass}}
             {{pass}}
 
@@ -129,5 +143,4 @@
     </div>
     {{pass}}
     {{pass}}
-
 </div>
