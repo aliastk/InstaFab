@@ -21,8 +21,10 @@ var app = function() {
     return "/InstaFab/default/get_posts" + "?" + $.param(pp);
   }
 
+
+
   self.get_posts = function() {
-    $.getJSON(get_tracks_url(0, 10), function(data) {
+    $.getJSON(get_tracks_url(0, 15), function(data) {
       self.vue.posts = data.posts;
       self.vue.has_more = data.has_more;
       self.vue.logged_in = data.logged_in;
@@ -33,7 +35,7 @@ var app = function() {
   // Complete as needed.
   self.vue = new Vue({
     el: "#vue-div",
-    delimiters: ['${', '}}'],
+    delimiters: ['${', '}'],
     unsafeDelimiters: ['!{', '}'],
     data: {
       posts: [],
@@ -48,6 +50,7 @@ var app = function() {
   self.get_posts();
   $("#vue-div").show();
   return self;
+
 };
 
 var APP = null;

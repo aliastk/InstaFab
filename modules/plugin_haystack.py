@@ -116,15 +116,17 @@ class WhooshBackend(SimpleBackend):
                             **dict((k,TEXT) for k in fieldnames))
             self.ix = create_in(self.indexdir, schema)
     def after_insert(self,fields,id):
-        if DEBUG: print 'after insert',fields,id
+        """"if DEBUG: print 'after inserting',fields,id
+        print id"""
         writer = self.ix.writer()
         writer.add_document(id=unicode(id),
                             **dict((name,unicode(fields[name]))
                                    for name in self.fieldnames if name in fields))
         writer.commit()
         return True
+
     def after_update(self,queryset,fields):
-        if DEBUG: print 'after update',queryset,fields
+        """"if DEBUG: print 'after update put in',queryset,fields"""
         ids = self.get_ids(queryset)
         if ids:
             writer = self.ix.writer()
@@ -144,6 +146,7 @@ class WhooshBackend(SimpleBackend):
             writer.commit()
         return True
     def meta_search(self,limit,mode,**fieldkeys):
+        if DEBUG: print 'searching',fieldkeys
         from whoosh.qparser import QueryParser
         ids = None
         with self.ix.searcher() as searcher:
@@ -231,11 +234,11 @@ class Haystack(object):
             lambda queryset,fields: self.backend.after_update(queryset,fields))
         self.table._after_delete.append(
             lambda queryset: self.backend.after_delete(queryset))
-    def search(self,limit=20,mode='and',**fieldkeys):
+    def search(self,limit=20,mode='or',**fieldkeys):
         ids = self.backend.meta_search(limit,mode,**fieldkeys)
         return self.table._id.belongs(ids)
 
-def test(mode='simple'):
+def test(mode='whoosh'):
     db = DAL()
     db.define_table('thing',Field('name'),Field('description','text'))
     if mode=='simple':

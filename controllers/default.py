@@ -7,15 +7,9 @@
 # - user is required for authentication and authorization
 # - download is for downloading files uploaded in the db (does streaming)
 # -------------------------------------------------------------------------
-from plugin_haystack import Haystack
-
-def search():
+def test():
     Posts = None
-    if request.args(0) is not None:
-        query = MyIndex.search(PostedBy = request.args(0))
-        Posts = db(query).select()
-    else:
-        Posts = db().select(db.Posts.ALL)
+    Posts = db().select(db.Posts.ALL)
     return dict(Posts = Posts)
 
 def index():
@@ -26,10 +20,12 @@ def index():
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
+
     Posts = None
     if request.args(0) is not None:
-        query = index.search(request.args(0))
+        query = MyIndex.search("tester")
         Posts = db(query).select()
+
     else:
         Posts = db().select(db.Posts.ALL)
     return dict(Posts = Posts)
@@ -48,11 +44,17 @@ def Lookbook():
 
     return dict(Posts = Posts)
 
+
 def add():
-    form = SQLFORM(db.Posts,upload=URL('download'))
+    form = SQLFORM(db.Posts)
     if form.process().accepted:
         session.flash = T("Post added")
-        redirect(URL('default','index'))
+        """writer = MyIndex.backend.ix.writer()
+        writer.add_document(id=unicode(form.vars.id),PostedBy=u'tester')
+        print unicode(form.vars.id)
+        print unicode(auth.user.username)
+        writer.commit()"""
+        redirect(URL('default','test'))
     elif form.errors:
         session.flash = T('Please correct the info')
     return dict(form = form)
@@ -130,6 +132,7 @@ def call():
     return service()
 
 def profile():
+    user = db(db.auth_user.username == request.args(0)).select()
     return dict(form=auth())
 
 def get_posts():
@@ -137,18 +140,18 @@ def get_posts():
     end_idx = int(request.vars.end_idx) if request.vars.end_idx is not None else 0
     posts = []
     has_more = False
-    rows = db().select(db.Posts.ALL, limitby=(start_idx, end_idx + 1))
+    rows = db().select(db.Posts.ALL)
     for i, r in enumerate(rows):
         if i < end_idx - start_idx:
             t = dict(
-                Picture = r.Picture,
+                Picture = URL('default','download',args=r.Picture),
                 MyMessage = r.MyMessage,
                 PostedBy = r.PostedBy,
                 CreatedOn = r.CreatedOn.strftime("%B %d, %Y"),
                 Likes = r.Likes,
                 Dislikes = r.Dislikes,
                 Shopping = r.Shopping,
-                Tags = r.tags
+                Tags = r.Tags.split("#")
             )
             posts.append(t)
         else:
