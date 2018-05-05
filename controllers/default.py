@@ -22,12 +22,7 @@ def index():
     """
 
     Posts = None
-    if request.args(0) is not None:
-        query = MyIndex.search("tester")
-        Posts = db(query).select()
-
-    else:
-        Posts = db().select(db.Posts.ALL)
+    Posts = db().select(db.Posts.ALL)
     return dict(Posts = Posts)
 
 def Lookbook():

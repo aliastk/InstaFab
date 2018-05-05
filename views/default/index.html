@@ -1,146 +1,77 @@
 {{extend 'layout.html'}}
-
 {{block head}}
-{{end}}
+<script src="{{=URL('static', 'js/vue.js')}}"></script>
 <link href="{{=URL('static','css/masonry.css')}}" rel="stylesheet" type="text/css"/>
-<a href="{{=URL('default','search', args="go")}}">search</a>
-<div class="main_content container masonry">
-  {{if auth.user is not None:}}
-    {{for post in Posts:}}
-
-      <div class = "post">
-        <div class = "OuterCard">
-        <div class = "blogpost">
-
-
-
-          <!---<div class="LikeButton">
-
-          </div> -->
-          {{if post.PostedBy == auth.user.username:}}
-          <a class="EditPost" href="{{=URL('default', 'edit', args=[post.id])}}">
-              <i class="fa fa-edit fa-lg"></i>
-          </a>
-          {{else:}}
-          <label class="FavButton">
-            <input type ="checkbox">
-            <i class="fa fa-heart-o unchecked"></i>
-            <i class="fa fa-heart checked"></i>
-          </label>
-          {{pass}}
-
-          <div class = "Author"><a>{{=post.PostedBy}}</a>
-            <!-- https://stackoverflow.com/questions/12605934/formatting-date-in-web2py-python -->
-              <div class= "PostDate">{{=post.CreatedOn.strftime("%B %d, %Y")}}</div>
-
-          </div>
-          <img class = "UploadedImage" src="{{=URL('default', 'download', args= post.Picture)}}" />
-          <div class = "MSG">{{=post.MyMessage}}</div>
-
-          <div class="tags">
-            {{SplitTags = post.Tags.split("#")}}
-            {{for tag in SplitTags:}}
-              {{if tag is not "":}}
-              <span class = "tag_settings">
-                <span>{{=tag}}</span></span>
-              {{pass}}
-            {{pass}}
-
-
-          </div>
-
-          <div class="ButtonArea container">
-            <div class = "Button">
-            <label class = "LikeButton">
-                <input type="checkbox">
-                <i class="fa fa-thumbs-o-up unchecked"></i>
-                <i class ="fa fa-thumbs-up checked"></i>
-              </label>
-              123
-            </div>
-            <div class = "Button">
-            <label class="UnlikeButton">
-              <input type="checkbox">
-              <i class="fa fa-thumbs-o-down unchecked" aria-hidden="true"></i>
-              <i class="fa fa-thumbs-down checked"></i>
-            </label>
-            23
-          </div>
-
-            <div style="display:inline-block">
-            {{if post.PostedBy == auth.user.username:}}
-
-            <a class="DeletePost" href="{{=URL('default', 'delete', args=[post.id], user_signature=True)}}">
-                <i class="fa fa-trash-o fa-lg"></i>
-            </a>
-            {{else:}}
-            <!-- do not show trash can -->
-            <!-- show the shobbing basket icon -->
-              <a>
-                <i class="ShoppingIcon fa fa-shopping-basket"></i>
-              </a>
-            {{pass}}
-          </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    {{pass}}
-
-    <!-- when the user is not logged in -->
-
-
-    {{else:}}
-    {{for post in Posts:}}
-
-      <div class = "post">
-        <div class = "OuterCard">
-        <div class = "blogpost">
-          <div class = "Author"><a>{{=post.PostedBy}}</a>
-            <!-- https://stackoverflow.com/questions/12605934/formatting-date-in-web2py-python -->
-              <div class= "PostDate">{{=post.CreatedOn.strftime("%B %d, %Y")}}</div>
-          </div>
-          <img class = "UploadedImage" src="{{=URL('default', 'download', args= post.Picture)}}" />
-          <div class = "MSG">{{=post.MyMessage}}</div>
-          <div class="tags">
-            {{SplitTags = post.Tags.split("#")}}
-            {{for tag in SplitTags:}}
-              {{if tag is not "":}}
-              <span class = "tag_settings">
-                <span>{{=tag}}</span></span>
-              {{pass}}
-            {{pass}}
-
-
-          </div>
-          <div class="ButtonArea">
-            <div class = "Button">
-            <label class = "LikeButton">
-              <input type="checkbox">
-              <i class="fa fa-thumbs-o-up unchecked"></i>
-              <i class ="fa fa-thumbs-up checked"></i>
-            </label>
-          </div>
-          <div class="Button">
-            <label class="UnlikeButton">
-              <input type="checkbox">
-              <i class="fa fa-thumbs-o-down unchecked" aria-hidden="true"></i>
-              <i class="fa fa-thumbs-down checked"></i>
-            </label>
-          </div>
-
-          <div style="display:inline-block">
-            <a>
-              <i class="ShoppingIcon fa fa-shopping-basket"></i>
-            </a>
-          </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-    {{pass}}
-    {{pass}}
+{{end}}
+<div class="search" style="margin:0 auto;width:50%;">
+  <input type="text" v-model="search" placeholder="Search title.."/>
 </div>
+<div id="vue-div" class="main_content container masonry display:none">
+
+  <div class = "post" v-for="post in filteredPosts">
+    <div class = "OuterCard">
+      <div class = "blogpost">
+
+
+      <a v-if="user == post.PostedBy" class="EditPost" >
+          <i class="fa fa-edit fa-lg"></i>
+      </a>
+      <label v-else class="FavButton">
+        <input type ="checkbox">
+        <i class="fa fa-heart-o unchecked"></i>
+        <i class="fa fa-heart checked"></i>
+      </label>
+
+      <div class = "Author"><a>${post.PostedBy}</a>
+        <!-- https://stackoverflow.com/questions/12605934/formatting-date-in-web2py-python -->
+          <div class= "PostDate">${post.CreatedOn}</div>
+      </div>
+
+      <img class = "UploadedImage " v-bind:src="post.Picture" />
+      <div class = "MSG">${post.MyMessage}</div>
+
+      <div class="tags">
+          <span v-for="tag in post.Tags" class = "tag_settings">
+            <span>${tag}</span>
+          </span>
+      </div>
+
+
+
+      <div v-if="logged_in" class="ButtonArea container">
+        <div class = "Button">
+          <label class = "LikeButton">
+            <input type="checkbox">
+            <i class="fa fa-thumbs-o-up unchecked"></i>
+            <i class ="fa fa-thumbs-up checked"></i>
+          </label>
+          123
+        </div>
+
+        <div class = "Button">
+          <label class="UnlikeButton">
+            <input type="checkbox">
+            <i class="fa fa-thumbs-o-down unchecked" aria-hidden="true"></i>
+            <i class="fa fa-thumbs-down checked"></i>
+          </label>
+          23
+        </div>
+        <div style="display:inline-block">
+          <a v-if="user == post.PostedBy" class="DeletePost">
+            <i class="fa fa-trash-o fa-lg"></i>
+          </a>
+        <!-- do not show trash can -->
+        <!-- show the shobbing basket icon -->
+          <a v-else>
+            <i class="ShoppingIcon fa fa-shopping-basket"></i>
+          </a>
+        </div>
+
+      </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{{=URL('static', 'js/default_index.js')}}"></script>

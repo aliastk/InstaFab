@@ -9,14 +9,13 @@
  @media (min-width: 800px) {
   .masonry{
   flex-direction: column;
-  column-count: 2;
+  column-count: 3;
   column-gap: 0;
   }
 }
 
 
 .post{
-  margin: -5%;
   padding: 0 20px 0 0;
   break-inside: avoid;
   padding: 5px;
