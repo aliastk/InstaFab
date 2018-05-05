@@ -1,8 +1,10 @@
 // This is the js for the default/index.html view.
 
-
 var app = function() {
-
+  Vue.use(VueLazyload, {
+    observer: true,
+    silent: false
+  })
   var self = {};
 
   Vue.config.silent = false; // show all warnings

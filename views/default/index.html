@@ -3,10 +3,15 @@
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
 <link href="{{=URL('static','css/masonry.css')}}" rel="stylesheet" type="text/css"/>
 {{end}}
-<div class="search" style="margin:0 auto;width:50%;">
+
+
+<div id="vue-div">
+
+<div  class="search" style="margin:0 auto;width:50%;">
   <input type="text" v-model="search" placeholder="Search title.."/>
 </div>
-<div id="vue-div" class="main_content container masonry display:none">
+
+<div  class="main_content container masonry display:none">
 
   <div class = "post" v-for="post in filteredPosts">
     <div class = "OuterCard">
@@ -27,7 +32,7 @@
           <div class= "PostDate">${post.CreatedOn}</div>
       </div>
 
-      <img class = "UploadedImage " v-bind:src="post.Picture" />
+      <img class = "UploadedImage " v-lazy="post.Picture"/>
       <div class = "MSG">${post.MyMessage}</div>
 
       <div class="tags">
@@ -74,4 +79,5 @@
   </div>
 </div>
 
+</div>
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>
