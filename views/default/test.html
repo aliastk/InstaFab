@@ -5,8 +5,10 @@
 {{end}}
 <div id="vue-div" class="main_content container masonry display:none">
 
-<input type="text" v-model="search" placeholder="Search title.."/>
-<label>Search title:</label>
+<div class="search">
+  <input type="text" v-model="search" placeholder="Search title.."/>
+  <label>Search title:</label>
+</div>
 
   <div class = "post" v-for="post in filteredPosts">
     <div class = "OuterCard">

@@ -14,10 +14,11 @@ var app = function() {
     }
   };
 
-  function get_tracks_url(start_idx, end_idx) {
+  function get_tracks_url(start_idx, end_idx, search) {
     var pp = {
       start_idx: start_idx,
-      end_idx: end_idx
+      end_idx: end_idx,
+      search: search,
     };
     return "/InstaFab/default/get_posts" + "?" + $.param(pp);
   }
@@ -25,7 +26,7 @@ var app = function() {
 
 
   self.get_posts = function() {
-    $.getJSON(get_tracks_url(0, 15), function(data) {
+    $.getJSON(get_tracks_url(0, 15, self.vue.search), function(data) {
       self.vue.posts = data.posts;
       self.vue.has_more = data.has_more;
       self.vue.logged_in = data.logged_in;
@@ -51,10 +52,38 @@ var app = function() {
     computed: {
       filteredPosts() {
         return this.posts.filter(post => {
-          if (this.search.length > 0) {
-            var tokens = this.search.split(" ");
-            return tokens.includes(post.PostedBy) ||
-              tokens.some(token => post.Tags.includes(token))
+          fields = post.Tags;
+          tokens = this.search.split("#").filter(token => token !=
+            "");
+          if (tokens.length > 0) {
+            recent = tokens[tokens.length - 1];
+            console.log(tokens);
+            prediction = false;
+            fields.forEach(function(element) {
+              if (element.includes(recent)) {
+                prediction = true;
+
+              }
+            });
+            console.log("prediction:" + prediction);
+            if (tokens.length == 1) {
+              return prediction || tokens.includes(post.PostedBy);
+            } else {
+              matches = 0;
+              tokens.forEach(function(elem) {
+                if (fields.includes(elem)) {
+                  matches++;
+                }
+              });
+              console.log(matches);
+              console.log(tokens.length)
+            }
+            return (matches == tokens.length - 1 && prediction) ||
+              (
+                matches == tokens.length) || tokens.includes(post.PostedBy);
+
+            //return fields.includes(tokens)
+            //post.Tags.includes(tokens)
           } else {
             return true;
           }

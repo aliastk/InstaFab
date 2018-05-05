@@ -138,9 +138,14 @@ def profile():
 def get_posts():
     start_idx = int(request.vars.start_idx) if request.vars.start_idx is not None else 0
     end_idx = int(request.vars.end_idx) if request.vars.end_idx is not None else 0
+    search = request.vars.search
     posts = []
     has_more = False
-    rows = db().select(db.Posts.ALL)
+    if len(search)>0:
+        query = MyIndex.search(search)
+        rows = db(query).select()
+    else:
+        rows = db().select(db.Posts.ALL)
     for i, r in enumerate(rows):
         if i < end_idx - start_idx:
             t = dict(
