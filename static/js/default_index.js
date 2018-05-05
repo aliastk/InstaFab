@@ -1,5 +1,6 @@
 // This is the js for the default/index.html view.
 
+
 var app = function() {
 
   var self = {};
@@ -38,12 +39,28 @@ var app = function() {
     delimiters: ['${', '}'],
     unsafeDelimiters: ['!{', '}'],
     data: {
+      search: "",
       posts: [],
       logged_in: false,
       has_more: false,
       user: null
     },
-    methods: {}
+    methods: {
+
+    },
+    computed: {
+      filteredPosts() {
+        return this.posts.filter(post => {
+          if (this.search.length > 0) {
+            var tokens = this.search.split(" ");
+            return tokens.includes(post.PostedBy) ||
+              tokens.some(token => post.Tags.includes(token))
+          } else {
+            return true;
+          }
+        })
+      }
+    }
 
   });
 

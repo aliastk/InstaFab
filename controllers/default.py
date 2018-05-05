@@ -151,7 +151,7 @@ def get_posts():
                 Likes = r.Likes,
                 Dislikes = r.Dislikes,
                 Shopping = r.Shopping,
-                Tags = r.Tags.split("#")
+                Tags = filter(None,r.Tags.split("#"))
             )
             posts.append(t)
         else:

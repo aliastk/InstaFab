@@ -4,7 +4,11 @@
 <link href="{{=URL('static','css/masonry.css')}}" rel="stylesheet" type="text/css"/>
 {{end}}
 <div id="vue-div" class="main_content container masonry display:none">
-  <div class = "post" v-for="post in posts">
+
+<input type="text" v-model="search" placeholder="Search title.."/>
+<label>Search title:</label>
+
+  <div class = "post" v-for="post in filteredPosts">
     <div class = "OuterCard">
       <div class = "blogpost">
 
@@ -23,13 +27,51 @@
           <div class= "PostDate">${post.CreatedOn}</div>
       </div>
 
-      <img class = "UploadedImage" v-bind:src="post.Picture" />
+      <img class = "UploadedImage " v-bind:src="post.Picture" />
       <div class = "MSG">${post.MyMessage}</div>
 
+      <div class="tags">
+          <span v-for="tag in post.Tags" class = "tag_settings">
+            <span>${tag}</span>
+          </span>
+      </div>
 
+
+
+      <div v-if="logged_in" class="ButtonArea container">
+        <div class = "Button">
+          <label class = "LikeButton">
+            <input type="checkbox">
+            <i class="fa fa-thumbs-o-up unchecked"></i>
+            <i class ="fa fa-thumbs-up checked"></i>
+          </label>
+          123
+        </div>
+
+        <div class = "Button">
+          <label class="UnlikeButton">
+            <input type="checkbox">
+            <i class="fa fa-thumbs-o-down unchecked" aria-hidden="true"></i>
+            <i class="fa fa-thumbs-down checked"></i>
+          </label>
+          23
+        </div>
+        <div style="display:inline-block">
+          <a v-if="user == post.PostedBy" class="DeletePost">
+            <i class="fa fa-trash-o fa-lg"></i>
+          </a>
+        <!-- do not show trash can -->
+        <!-- show the shobbing basket icon -->
+          <a v-else>
+            <i class="ShoppingIcon fa fa-shopping-basket"></i>
+          </a>
+        </div>
+
+      </div>
 
       </div>
     </div>
   </div>
 </div>
+
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>
