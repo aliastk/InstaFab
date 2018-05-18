@@ -27,7 +27,7 @@
 
 
 
-      <a v-if="user == post.PostedBy" class="EditPost" v-on:click="switch_to_edit(post)" >
+      <a v-if="user == post.PostedBy" class="EditPost" v-on:click="switch_to_edit(post)" href="#popup1" >
           <i class="fa fa-edit fa-lg"></i>
       </a>
       <label v-else class="FavButton">
@@ -54,8 +54,39 @@
       </div>
 
     <div v-else class="post_text">
-      <input v-model="post.tag" placeholder="Use a # to separate tags"></input>
-      <textarea rows = 5 v-model="post.MyMessage" placeholder="Write a message here"></textarea>
+
+      <div class = "Author"><a>${post.PostedBy}</a>
+        <!-- https://stackoverflow.com/questions/12605934/formatting-date-in-web2py-python -->
+          <div class= "PostDate">${post.CreatedOn}</div>
+      </div>
+
+      <img class = "UploadedImage " v-lazy="post.Picture"/>
+      <div class = "MSG">${post.MyMessage}</div>
+
+      <div class="tags">
+          <span v-for="tag in post.Tags" class = "tag_settings">
+            <span>${tag}</span>
+          </span>
+      </div>
+
+      <div class="center spaced padded">
+
+    </div>
+    <div class="modal" id="popup1">
+      <div class="twothirds rounded white padded">
+        <h2>Edit Mode</h2>
+
+        <a class="close" href="#">×</a>
+
+        <textarea rows = 2 v-model="post.MyMessage" placeholder="Write a message here"></textarea>
+        <input v-model="post.tag" placeholder="Use a # to separate tags"></input>
+        <div class="right">
+          <a class="close btn" href="#">close</a>
+        </div>
+      </div>
+    </div>
+
+
     </div>
 
 
