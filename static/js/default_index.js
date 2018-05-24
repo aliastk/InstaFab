@@ -26,6 +26,42 @@ var app = function() {
     return "/InstaFab/default/get_posts" + "?" + $.param(pp);
   }
 
+  self.edit_post = function(title, post, id, current_post){
+  $.post(edit_post,
+    {
+      id:id,
+      title:title,
+      post:post
+    },
+    function(){
+      //self.switch_to_edit(current_post);
+    }
+
+  )
+
+}
+
+self.switch_to_edit = function(current_post){
+  current_post.edit = !current_post.edit;
+  self.vue.first_post = current_post.post;
+  self.vue.first_title = current_post.title;
+  console.log(current_post)
+};
+
+/*self.cancel = function(current_post){
+  current_post.post = self.vue.first_post;
+  current_post.title = self.vue.first_title;
+  current_post.edit = !current_post.edit;
+}
+*/
+
+self.switch_making_post = function(){
+  self.vue.making_post = !self.vue.making_post;
+  self.vue.post_title = null;
+  self.vue.post_content = null;
+
+}
+
 
 
   self.get_posts = function() {
@@ -47,9 +83,18 @@ var app = function() {
       posts: [],
       logged_in: false,
       has_more: false,
-      user: null
+      user: null,
+      first_post: null,
+      first_title: null,
+      post_title: null,
+      post_content: null,
+      making_post: false
     },
     methods: {
+      edit_post: self.edit_post,
+    //  cancel: self.cancel,
+      switch_to_edit: self.switch_to_edit,
+      switch_making_post: self.switch_making_post
 
     },
     computed: {

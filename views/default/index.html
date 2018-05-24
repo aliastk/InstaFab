@@ -1,6 +1,13 @@
 {{extend 'layout.html'}}
 {{block head}}
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
+<script>
+    //var my_url = "{{=URL('api', 'my_method')}}";
+    //var Switch = "{{=URL('api', 'Switch')}}";
+    //var delete_memo = "{{=URL('api', 'delete', user_signature = True)}}";
+    var edit_post = "{{=URL('api', 'edit', user_signature = True)}}";
+    //var add_memo = "{{=URL('api', 'add')}}";
+</script>
 <link href="{{=URL('static','css/masonry.css')}}" rel="stylesheet" type="text/css"/>
 {{end}}
 
@@ -18,7 +25,9 @@
       <div class = "blogpost">
 
 
-      <a v-if="user == post.PostedBy" class="EditPost" >
+
+
+      <a v-if="user == post.PostedBy" class="EditPost" v-on:click="switch_to_edit(post)" href="#popup1" >
           <i class="fa fa-edit fa-lg"></i>
       </a>
       <label v-else class="FavButton">
@@ -26,6 +35,25 @@
         <i class="fa fa-heart-o unchecked"></i>
         <i class="fa fa-heart checked"></i>
       </label>
+
+      <div v-if = "!post.edit" class = "post_text">
+
+        <div class = "Author"><a>${post.PostedBy}</a>
+          <!-- https://stackoverflow.com/questions/12605934/formatting-date-in-web2py-python -->
+            <div class= "PostDate">${post.CreatedOn}</div>
+        </div>
+
+        <img class = "UploadedImage " v-lazy="post.Picture"/>
+        <div class = "MSG">${post.MyMessage}</div>
+
+        <div class="tags">
+            <span v-for="tag in post.Tags" class = "tag_settings">
+              <span>${tag}</span>
+            </span>
+        </div>
+      </div>
+
+    <div v-else class="post_text">
 
       <div class = "Author"><a>${post.PostedBy}</a>
         <!-- https://stackoverflow.com/questions/12605934/formatting-date-in-web2py-python -->
@@ -40,6 +68,26 @@
             <span>${tag}</span>
           </span>
       </div>
+
+      <div class="center spaced padded">
+
+    </div>
+    <div class="modal" id="popup1">
+      <div class="twothirds rounded white padded">
+        <h2>Edit Mode</h2>
+
+        <a class="close" href="#">×</a>
+
+        <textarea rows = 2 v-model="post.MyMessage" placeholder="Write a message here"></textarea>
+        <input v-model="post.tag" placeholder="Use a # to separate tags"></input>
+        <div class="right">
+          <a class="close btn" href="#">close</a>
+        </div>
+      </div>
+    </div>
+
+
+    </div>
 
 
 

@@ -90,6 +90,7 @@ def edit():
     'edit' is the controller (this function)
     '3' is request.args[0]
     """
+
     if request.args(0) is None:
         # We send you back to the general index.
         redirect(URL('default', 'index'))
@@ -106,6 +107,8 @@ def edit():
         # Is this an edit form?
         form = SQLFORM(db.Posts)
     return dict(form=form)
+
+    # Here go your api methods.
 
 
 @cache.action()
@@ -149,6 +152,7 @@ def get_posts():
                 PostedBy = r.PostedBy,
                 CreatedOn = r.CreatedOn.strftime("%B %d, %Y"),
                 Likes = r.Likes,
+                edit = False,
                 Dislikes = r.Dislikes,
                 Shopping = r.Shopping,
                 Tags = filter(None,r.Tags.split("#"))
