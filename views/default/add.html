@@ -2,11 +2,11 @@
 {{block head}}
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
 <script src="{{=URL('static', 'js/dropzone.js')}}"></script>
+<script src="{{=URL('static', 'js/croppie.js')}}"></script>
+<link href="{{=URL('static','css/croppie.css')}}" rel="stylesheet" type="text/css"/>
 <link href="{{=URL('static','css/add_post.css')}}" rel="stylesheet" type="text/css"/>
 <link href="{{=URL('static','css/dropzone.css')}}" rel="stylesheet" type="text/css"/>
-<script>
 
-</script>
 <div class = "MyContent">
 <!--
   <h1> New Post </h1>
@@ -17,8 +17,8 @@
   {{=form.custom.end}}
 -->
     {{=form.custom.begin}}
-    <div  id="add-div" class = "third" style = "margin-right:auto;margin-left:auto;">
-        <div class = "OuterCard">
+    <div  id="add-div" class = "masonry" style = "margin-right:auto;margin-left:auto;">
+        <div class = "OuterCard post">
           <div class = "blogpost">
 
             <div class = "Author">
@@ -31,8 +31,10 @@
                 <input class="upload input-file" id="Posts_Picture" name="Picture" type="file" style="display:None" v-on:change="previewImage" />
               </label>
             </div>
+            <div id ="crop" >
+            </div>
             <div>
-                <img class="preview" :src="imageData">
+              <img :src="imageData" />
             </div>
             <div id="myId"> </div>
             <div class = "EnterMSG">
@@ -49,6 +51,5 @@
 </div>
 <script src="{{=URL('static', 'js/add_post.js')}}"></script>
 <script>
-
 
 </script>
