@@ -21,17 +21,42 @@ var app = function() {
     });
   };
 
-  self.submit = function() {
-    // The submit button to add a track has been added.
-    $.post(add_track_url, {
-        MyMessage: self.vue.form_message,
-      },
+  self.upload_file = function(data) {
+    // Reads the file.
+    var file = new File([data], "image.jpeg", {
+      'type': 'image/jpeg'
+    });
+    console.log(file);
+    // First, gets an upload URL.
+    console.log("Trying to get the upload url");
+    $.getJSON(
+      upload,
       function(data) {
-        $.web2py.enableElement($("#add_track_submit"));
-        self.vue.tracks.unshift(data.track);
-        enumerate(self.vue.tracks);
+        // We now have upload (and download) URLs.
+        var put_url = data['signed_url'];
+        /*//var get_url = data['access_url'];
+        console.log("Received upload url: " + put_url);
+        // Uploads the file, using the low-level interface.
+        var req = new XMLHttpRequest();
+        req.addEventListener("load", self.upload_complete());
+        // TODO: if you like, add a listener for "error" to detect failure.
+        req.open("PUT", put_url, true);
+        req.send(file);*/
+        $.ajax({
+          type: 'PUT',
+          url: put_url,
+          data: file,
+          contentType: "image/jpeg",
+          processData: false,
+          success: self.upload_complete()
+        });
       });
   };
+
+  self.upload_complete = function() {
+    // Hides the uploader div.
+    console.log('The file was uploaded; it is now available at ');
+  }
 
   self.vue = new Vue({
     el: "#add-div",
@@ -42,7 +67,7 @@ var app = function() {
       myCrop: null,
       message: null,
       tag: null,
-
+      image_url: null
     },
     methods: {
       previewImage: function(event) {
@@ -59,20 +84,18 @@ var app = function() {
               console.log('jQuery bind complete');
               $uploadCrop.croppie('rotate', 90);
               $uploadCrop.croppie('result', {
-                type: 'base64',
+                type: 'blob',
+                format: 'jpeg',
                 size: 'viewport'
-              }).then(function(base64) {
-                console.log(base64)
-                  //this.imageData = blob;
+              }).then(function(blob) {
+                self.upload_file(blob);
+                console.log(blob);
+                //this.imageData = blob;
               });
 
             });
           }
           reader.readAsDataURL(input.files[0]);
-        } else {
-          swal(
-            "Sorry - you're browser doesn't support the FileReader API"
-          );
         }
         $uploadCrop = $('#crop').croppie({
           viewport: {
