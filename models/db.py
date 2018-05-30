@@ -68,15 +68,14 @@ plugins = PluginManager()
 # create all tables needed by auth if not custom tables
 
 auth.settings.extra_fields['auth_user'] = [
-    Field('phone_number' , requires = IS_MATCH('\d{3}\-\d{3}\-\d{4}'),default=None),
-    Field('city' , 'text',default=None),
-    Field('territory' , 'text',default=None),
-    Field('country' , 'text',default=None),
-    Field('profile_pic' , 'upload',default=None),
-    Field('occupation' , 'text',default=None),
-    Field('bio' , 'text',default=None),
-    Field('bs','text',default=None),
-    Field('likes','list:integer')
+    # Field('phone_number' , requires = IS_MATCH('\d{3}\-\d{3}\-\d{4}'),default=None),
+    # Field('city' , 'text',default=None),
+    # Field('territory' , 'text',default=None),
+    # Field('country' , 'text',default=None),
+    # Field('profile_pic' , 'upload',default=None),
+    # Field('occupation' , 'text',default=None),
+    # Field('bio' , 'text',default=None),
+    # Field('bs','text',default=None),
 ]
 auth.define_tables(username=True);
 

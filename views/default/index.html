@@ -30,11 +30,17 @@
       <a v-if="user == post.PostedBy" class="EditPost" v-on:click="switch_to_edit(post)" href="#popup1" >
           <i class="fa fa-edit fa-lg"></i>
       </a>
+
+      <!---
       <label v-else class="FavButton">
         <input type ="checkbox">
         <i class="fa fa-heart-o unchecked"></i>
         <i class="fa fa-heart checked"></i>
       </label>
+      -->
+      <div v-else class="FavButton">
+        <i v-bind:class="[post.favorited ? 'fa fa-heart':'fa fa-heart-o']"></i>
+      </div>
 
       <div v-if = "!post.edit" class = "post_text">
 

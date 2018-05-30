@@ -139,13 +139,32 @@ def get_posts():
     search = request.vars.search
     posts = []
     has_more = False
+
+    logged_in = auth.user is not None
+    user = None;
+    if auth.user is not None:
+        user = auth.user.username
+
     if len(search)>0:
         query = MyIndex.search(search)
         rows = db(query).select()
     else:
         rows = db().select(db.Posts.ALL)
+
+    favorites = []
+    if(logged_in):
+        GetFavorites = db(db.Favorites.ListOwner == auth.user).select().first()
+        if(GetFavorites != None):
+            favorites = GetFavorites.FavoritesList
+
+    favorites = set(favorites)
+
     for i, r in enumerate(rows):
         if i < end_idx - start_idx:
+            if(r.id in favorites):
+                favorited = True
+            else:
+                favorited = False
             t = dict(
                 Picture = URL('default','download',args=r.Picture),
                 MyMessage = r.MyMessage,
@@ -155,18 +174,47 @@ def get_posts():
                 edit = False,
                 Dislikes = r.Dislikes,
                 Shopping = r.Shopping,
-                Tags = filter(None,r.Tags.split("#"))
+                Tags = filter(None,r.Tags.split("#")),
+                favorited = favorited
             )
             posts.append(t)
         else:
             has_more = True
-    logged_in = auth.user is not None
-    user = None;
-    if auth.user is not None:
-        user = auth.user.username
+
     return response.json(dict(
         posts=posts,
         logged_in=logged_in,
         has_more=has_more,
-        user=user
+        user=user,
+        favorites = favorites
+    ))
+
+def GetFavorites():
+    start_idx = int(request.vars.start_idx) if request.vars.start_idx is not None else 0
+    end_idx = int(request.vars.end_idx) if request.vars.end_idx is not None else 10
+    posts = []
+    has_more = False
+    GetFavorites = db(db.Favorites.ListOwner == auth.user).select().first().FavoritesList
+    rows = db(db.Posts.id.belongs(GetFavorites)).select()
+
+    for i, r in enumerate(rows):
+        if i < end_idx - start_idx:
+            t = dict(
+                Picture = URL('default','download',args=r.Picture),
+                MyMessage = r.MyMessage,
+                PostedBy = r.PostedBy,
+                CreatedOn = r.CreatedOn.strftime("%B %d, %Y"),
+                Likes = r.Likes,
+                Dislikes = r.Dislikes,
+                Shopping = r.Shopping,
+                Tags = filter(None,r.Tags.split("#")),
+                favorited = True
+            )
+            posts.append(t)
+        else:
+            has_more = True
+
+    return response.json(dict(
+        posts=posts,
+        has_more=has_more
     ))

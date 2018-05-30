@@ -28,9 +28,13 @@ db.define_table('Posts',
                 Field('Dislikes','integer',writable=False,readable=False,default = 0),
                 Field('Shopping','text'),
                 Field('Tags','string' , default="all", required=True),
-                Field('Archived','boolean',default=False,writable=False,readable=False)
+                Field('picture_src','text')
                 )
 
+db.define_table('Favorites',
+                Field('ListOwner','reference auth_user'),
+                Field('FavoritesList','list:reference Posts')
+               )
 
 db.executesql('CREATE INDEX IF NOT EXISTS mytagx ON Posts (Tags);')
 db.executesql('CREATE INDEX IF NOT EXISTS myPosterx ON Posts (PostedBy);')
