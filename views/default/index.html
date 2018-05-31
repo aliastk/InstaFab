@@ -4,8 +4,8 @@
 <script>
     //var my_url = "{{=URL('api', 'my_method')}}";
     //var Switch = "{{=URL('api', 'Switch')}}";
-    //var delete_memo = "{{=URL('api', 'delete', user_signature = True)}}";
-    var edit_post = "{{=URL('api', 'edit', user_signature = True)}}";
+    var delete_post = "{{=URL('default', 'delete_post', user_signature = True)}}";
+    var edit_post = "{{=URL('default', 'edit_post', user_signature = True)}}";
     //var add_memo = "{{=URL('api', 'add')}}";
 </script>
 <link href="{{=URL('static','css/masonry.css')}}" rel="stylesheet" type="text/css"/>
@@ -67,6 +67,7 @@
       </div>
 
       <img class = "UploadedImage " v-lazy="post.Picture"/>
+      <!--
       <div class = "MSG">${post.MyMessage}</div>
 
       <div class="tags">
@@ -74,21 +75,29 @@
             <span>${tag}</span>
           </span>
       </div>
+    -->
+
+
 
       <div class="center spaced padded">
 
     </div>
     <div class="modal" id="popup1">
       <div class="twothirds rounded white padded">
+        <div class="right">
+        <i v-on:click = "cancel(post)"href="#" class="fa fa-times-circle close close_modal"></i></a>
+        </div>
         <h2>Edit Mode</h2>
 
-        <a class="close" href="#">×</a>
+
 
         <textarea rows = 2 v-model="post.MyMessage" placeholder="Write a message here"></textarea>
         <input v-model="post.tag" placeholder="Use a # to separate tags"></input>
-        <div class="right">
-          <a class="close btn" href="#">close</a>
-        </div>
+
+          <div>
+            <a class="btn rounded" v-on:click = "edit_post(post.MyMessage, post.tag, post.id, post)" href="#">Submit</a>
+            <a class="btn rounded" v-on:click = "cancel(post)" href="#">Cancel</a>
+          </div>
       </div>
     </div>
 
@@ -117,7 +126,7 @@
         </div>
         <div style="display:inline-block">
           <a v-if="user == post.PostedBy" class="DeletePost">
-            <i class="fa fa-trash-o fa-lg"></i>
+            <i v-on:click = "delete_post(post.id)"class="fa fa-trash-o fa-lg"></i>
           </a>
         <!-- do not show trash can -->
         <!-- show the shobbing basket icon -->

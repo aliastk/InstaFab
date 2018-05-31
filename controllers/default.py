@@ -133,6 +133,13 @@ def profile():
     user = db(db.auth_user.username == request.args(0)).select()
     return dict(form=auth())
 
+def edit_post():
+    # TODO: find the post in the db and update record
+    return;
+
+def delete_post():
+    # TODO: delete from database
+    return;
 def get_posts():
     start_idx = int(request.vars.start_idx) if request.vars.start_idx is not None else 0
     end_idx = int(request.vars.end_idx) if request.vars.end_idx is not None else 0
@@ -172,6 +179,7 @@ def get_posts():
                 CreatedOn = r.CreatedOn.strftime("%B %d, %Y"),
                 Likes = r.Likes,
                 edit = False,
+                id = r.id,
                 Dislikes = r.Dislikes,
                 Shopping = r.Shopping,
                 Tags = filter(None,r.Tags.split("#")),

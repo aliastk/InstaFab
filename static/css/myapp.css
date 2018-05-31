@@ -194,6 +194,11 @@
   background-color: #D1CDCD;
   border: white solid thin;
 }
+.close_modal{
+  display: inline-block;
+  color: white;
+  cursor: pointer;
+}
 
 li>a{
   color:black

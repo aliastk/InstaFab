@@ -26,6 +26,29 @@ var app = function() {
     return "/InstaFab/default/get_posts" + "?" + $.param(pp);
   }
 
+  self.delete_post = function (id) {
+  $.post(delete_post,
+      {
+          id:id
+      },
+      function () {
+          var index = null;
+          for (var i = 0; i < self.vue.posts.length; i++) {
+              if (self.vue.posts[i].id === id) {
+                  // If I set this to i, it won't work, as the if below will
+                  // return false for items in first position.
+                  console.log(self.vue.posts[i]);
+                  index = i + 1;
+                  break;
+              }
+          }
+          if (index) {
+              self.vue.posts.splice(index-1, 1);
+          }
+      }
+  )
+};
+
   self.edit_post = function(title, post, id, current_post) {
     $.post(edit_post, {
         id: id,
@@ -33,7 +56,7 @@ var app = function() {
         post: post
       },
       function() {
-        //self.switch_to_edit(current_post);
+        self.switch_to_edit(current_post);
       }
 
     )
@@ -42,17 +65,17 @@ var app = function() {
 
   self.switch_to_edit = function(current_post) {
     current_post.edit = !current_post.edit;
-    self.vue.first_post = current_post.post;
-    self.vue.first_title = current_post.title;
+    self.vue.first_post = current_post.MyMessage;
+    self.vue.first_title = current_post.tag;
     console.log(current_post)
   };
 
-  /*self.cancel = function(current_post){
-    current_post.post = self.vue.first_post;
-    current_post.title = self.vue.first_title;
+  self.cancel = function(current_post){
+    current_post.MyMessage = self.vue.first_post;
+    current_post.tags = self.vue.first_title;
     current_post.edit = !current_post.edit;
   }
-  */
+
 
   self.switch_making_post = function() {
     self.vue.making_post = !self.vue.making_post;
@@ -92,9 +115,10 @@ var app = function() {
     },
     methods: {
       edit_post: self.edit_post,
-      //  cancel: self.cancel,
+      cancel: self.cancel,
       switch_to_edit: self.switch_to_edit,
-      switch_making_post: self.switch_making_post
+      switch_making_post: self.switch_making_post,
+      delete_post: self.delete_post
 
     },
     computed: {
