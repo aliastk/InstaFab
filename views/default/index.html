@@ -14,8 +14,8 @@
 
 <div id="vue-div">
 
-<div  class="search" style="margin:0 auto;width:50%;">
-  <input type="text" v-model="search" placeholder="Search title.."/>
+<div  class="search" style="margin:0 auto;width:50%;padding-top:3%;">
+  <input type="text" style="border-radius: 9px" v-model="search" placeholder="Search title..."/>
 </div>
 
 <div  class="main_content container masonry display:none">
@@ -95,7 +95,7 @@
         <input v-model="post.tag" placeholder="Use a # to separate tags"></input>
 
           <div>
-            <a class="btn rounded" v-on:click = "edit_post(post.MyMessage, post.tag, post.id, post)" href="#">Submit</a>
+            <a class="btn rounded" v-on:click = "edit_post(post.MyMessage, post.tag, post.id, post)" href="#">Confirm</a>
             <a class="btn rounded" v-on:click = "cancel(post)" href="#">Cancel</a>
           </div>
       </div>
