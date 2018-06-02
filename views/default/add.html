@@ -1,15 +1,18 @@
 {{extend 'layout.html'}}
 {{block head}}
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
-<script src="{{=URL('static', 'js/dropzone.js')}}"></script>
 <script src="{{=URL('static', 'js/croppie.js')}}"></script>
+<link href="{{=URL('static','css/cropper.min.css')}}" rel="stylesheet" type="text/css"/>
+<script src="{{=URL('static', 'js/cropper.min.js')}}"></script>
 <link href="{{=URL('static','css/croppie.css')}}" rel="stylesheet" type="text/css"/>
 <link href="{{=URL('static','css/add_post.css')}}" rel="stylesheet" type="text/css"/>
 <link href="{{=URL('static','css/dropzone.css')}}" rel="stylesheet" type="text/css"/>
 <script>
   var upload = "{{=URL('upload', 'get_upload_url')}}";
+  var download = "{{=URL('upload', 'get_download_url')}}";
+  var add = "{{=URL('upload', 'add')}}"
 </script>
-<div class = "MyContent">
+<div class = "MyContent fill">
 <!--
   <h1> New Post </h1>
   {{=form.custom.begin}}
@@ -18,40 +21,52 @@
   {{=form.custom.submit}}
   {{=form.custom.end}}
 -->
-    {{=form.custom.begin}}
-    <div  id="add-div" class = "masonry" style = "margin-right:auto;margin-left:auto;">
-        <div class = "OuterCard post">
-          <div class = "blogpost">
 
-            <div class = "Author">
-              <a>{{=form.custom.widget.PostedBy}}</a>
+    <div  id="add-div" class = "masonry" >
+
+        <div class = "OuterCard post trimMargin">
+          <div class = "blogpost">
+              <form action="#" v-on:submit.prevent="submit" class="form-horizontal" enctype="multipart/form-data" method="post">
+            <div class = "name">
+              <a>{{=auth.user.username}}</a>
             </div>
             <div class = "UploadImage">
               <label>
                 <i class = "fa fa-camera" style="font-size:2em"></i>
                 Upload Photo
-                <input class="upload input-file" id="Posts_Picture" name="Picture" type="file" style="display:None" v-on:change="previewImage" />
+                <input class="upload input-file" id="Posts_Picture" name="Picture" type="file" style="display:None" v-on:change="previewImage"/>
               </label>
+            </div>
+            <div v-if="cropping">
+              <i class="fa fa-refresh fa-2x" v-on:click="refresh"></i>
+              <i class="fa fa-undo fa-2x" v-on:click="rotate(45)" aria-hidden="true"></i>
+              <i class="fa fa-repeat fa-2x" v-on:click="rotate(-45)" aria-hidden="true"></i>
+              <i v-on:click="save" class="fa fa-floppy-o fa-2x" aria-hidden="true"></i>
+            </div>
+            <div v-if="imageUrl && !cropping">
+                <a class="btn" v-on:click="edit"> Edit Photo </a>
             </div>
             <div id ="crop" >
             </div>
+
             <div>
-              <img :src="imageData" />
+              <img id="image" v-bind:src="imageUrl" v-on:click="" class="UploadedImage" onerror="this.src = '{{=URL('static/images','giphy.gif')}}' "></img>
             </div>
             <div id="myId"> </div>
             <div class = "EnterMSG">
               <textarea class="text form-control" cols="40" id="Posts_MyMessage" name="MyMessage" rows="10" v-model="message" placeholder="Enter a message here"></textarea>
             </div>
             <div class = "EnterTag">
-              {{=form.custom.widget.Tags}}
+              <input type="text" v-model="tag" placeholder="#seperate #with #hashtags"/>
             </div>
-            <div class = "SubmitButton">{{=form.custom.submit}}</div>
+            <div class = "SubmitButton"><input type="submit" value="Submit" class="btn btn-primary"></div>
+            </form>
         </div>
       </div>
   </div>
-  {{=form.custom.end}}
+
 </div>
-<script src="{{=URL('static', 'js/add_post.js')}}"></script>
 <script>
 
 </script>
+<script src="{{=URL('static', 'js/add_post.js')}}"></script>

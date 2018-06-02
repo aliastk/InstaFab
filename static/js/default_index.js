@@ -26,37 +26,37 @@ var app = function() {
     return "/InstaFab/default/get_posts" + "?" + $.param(pp);
   }
 
-  self.delete_post = function (id) {
-  $.post(delete_post,
-      {
-          id:id
-      },
-      function () {
-          var index = null;
-          for (var i = 0; i < self.vue.posts.length; i++) {
-              if (self.vue.posts[i].id === id) {
-                  // If I set this to i, it won't work, as the if below will
-                  // return false for items in first position.
-                  console.log(self.vue.posts[i]);
-                  index = i + 1;
-                  break;
-              }
-          }
-          if (index) {
-              self.vue.posts.splice(index-1, 1);
-          }
-      }
-  )
-};
-
-  self.edit_post = function(title, post, id, current_post) {
-    $.post(edit_post, {
-        id: id,
-        title: title,
-        post: post
+  self.delete_post = function(id) {
+    $.post(delete_post, {
+        id: id
       },
       function() {
+        var index = null;
+        for (var i = 0; i < self.vue.posts.length; i++) {
+          if (self.vue.posts[i].id === id) {
+            // If I set this to i, it won't work, as the if below will
+            // return false for items in first position.
+            console.log(self.vue.posts[i]);
+            index = i + 1;
+            break;
+          }
+        }
+        if (index) {
+          self.vue.posts.splice(index - 1, 1);
+        }
+      }
+    )
+  };
+
+  self.edit_post = function(current_post, index) {
+    $.post(edit_post, {
+        id: current_post.id,
+        msg: current_post.MyMessage,
+        tag: current_post.Tags
+      },
+      function(data) {
         self.switch_to_edit(current_post);
+
       }
 
     )
@@ -66,13 +66,13 @@ var app = function() {
   self.switch_to_edit = function(current_post) {
     current_post.edit = !current_post.edit;
     self.vue.first_post = current_post.MyMessage;
-    self.vue.first_title = current_post.tag;
+    self.vue.first_title = current_post.Tags;
     console.log(current_post)
   };
 
-  self.cancel = function(current_post){
+  self.cancel = function(current_post) {
     current_post.MyMessage = self.vue.first_post;
-    current_post.tags = self.vue.first_title;
+    current_post.Tags = self.vue.first_title;
     current_post.edit = !current_post.edit;
   }
 

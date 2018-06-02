@@ -19,17 +19,26 @@ session = boto3.session.Session(aws_access_key_id=AWS_KEY_INFO['key_id'],aws_sec
 client = session.client('s3')
 
 def aws_url(Method,key=None,expiration=3600):
-    """Generates a GCS path
-    Given a path on GCS and an expiration_secs (seconds) it generates a signed URL valid for that
-    number of seconds. keytext and gae_app and inferred from the environment, pass only to override
-    gae_app is necessary when running locally and server_utils is not available.
-    """
+
+    # TODO: make a seperate handler
+    if(Method=='get_object'):
+        signed_url = client.generate_presigned_url(
+            ClientMethod=Method,
+            Params={
+                'Bucket': 'instafabpictures',
+                'Key': key,
+                'ResponseContentType':'image/png'
+            },
+            ExpiresIn=expiration
+        )
+        return signed_url
+
     signed_url = client.generate_presigned_url(
         ClientMethod=Method,
         Params={
             'Bucket': 'instafabpictures',
             'Key': key,
-            'ContentType':'image/jpeg'
+            'ContentType':'image/png'
         },
         ExpiresIn=expiration
     )
@@ -42,7 +51,7 @@ def get_upload_url():
     - upload_url: used for uploading
     - download_url: used for retrieving the content"""
     # Invents a random name for the image.
-    image_path = web2py_uuid() + ".jpeg"
+    image_path = web2py_uuid() + ".png"
     signed_put_url=aws_url('put_object',key=image_path,expiration=3600*24*365*15)
     #signed_get_url = gcs_url(image_path, verb='GET',
     #                         expiration_secs=3600 * 24 * 365 * 50)
@@ -50,5 +59,30 @@ def get_upload_url():
     #response.headers['Access-Control-Allow-Origin'] = '*'
     return response.json(dict(
         signed_url=signed_put_url,
+        image_path=image_path
         #access_url=signed_get_url
     ))
+
+def get_download_url():
+    """Returns a fresh URL with ID to post something to GCS.
+    It returns a dictionary with two fields:
+    - upload_url: used for uploading
+    - download_url: used for retrieving the content"""
+    # Invents a random name for the image.
+    get_url=aws_url('get_object',key=request.vars.image_path,expiration=3600*24*365*15)
+    #signed_get_url = gcs_url(image_path, verb='GET',
+    #                         expiration_secs=3600 * 24 * 365 * 50)
+    # This line is required; otherwise, cross-domain requests are not accepted.
+    #response.headers['Access-Control-Allow-Origin'] = '*'
+    return response.json(dict(
+        get_url=get_url,
+        #access_url=signed_get_url
+    ))
+
+def add():
+    db.Posts.insert(
+        PictureUrl = request.vars.picture,
+        MyMessage = request.vars.MyMessage,
+        Tags = request.vars.Tags
+    )
+    redirect(URL('default','Lookbook'))

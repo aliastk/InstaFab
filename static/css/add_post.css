@@ -10,6 +10,17 @@
   display: flex;
   justify-content: center;
 }
+.fill{
+  display: flex;
+  flex-flow: column;
+}
 .preview{
   width:100%;
+}
+.trimMargin{
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+.name{
+  font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif;
 }

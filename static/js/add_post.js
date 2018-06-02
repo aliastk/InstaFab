@@ -23,8 +23,8 @@ var app = function() {
 
   self.upload_file = function(data) {
     // Reads the file.
-    var file = new File([data], "image.jpeg", {
-      'type': 'image/jpeg'
+    var file = new File([data], "image.png", {
+      'type': 'image/png'
     });
     console.log(file);
     // First, gets an upload URL.
@@ -46,16 +46,104 @@ var app = function() {
           type: 'PUT',
           url: put_url,
           data: file,
-          contentType: "image/jpeg",
+          contentType: "image/png",
           processData: false,
-          success: self.upload_complete()
+          success: self.upload_complete(data.image_path)
         });
       });
   };
 
-  self.upload_complete = function() {
+  self.upload_complete = function(key) {
     // Hides the uploader div.
+    $.getJSON(download, {
+      image_path: key
+    }, function(data) {
+      console.log(data);
+      $.getJSON(add, {
+        picture: data.get_url,
+        MyMessage: self.vue.message,
+        Tags: self.vue.tag
+      })
+    })
     console.log('The file was uploaded; it is now available at ');
+  }
+
+  self.rotate = function(degrees) {
+    if (!self.vue.cropping) {
+      return;
+    }
+    self.vue.$uploadCrop.rotate(degrees);
+  }
+
+  self.save = function() {
+    if (!self.vue.cropping) {
+      return;
+    }
+    self.vue.$uploadCrop.getCroppedCanvas().toBlob(self.cleanup,
+      "image/png");
+    /*.then(
+      function(blob) {
+        //self.upload_file(blob);
+        self.vue.imageData = blob;
+        console.log(blob);
+        var reader2 = new FileReader();
+        reader2.onload = function(f) {
+          self.vue.imageUrl = f.target.result;
+          console.log(f.target.result);
+          self.vue.cropping = false;
+          self.vue.$uploadCrop.destroy();
+        }
+        reader2.readAsDataURL(blob);
+        //this.imageData = blob;
+      });*/
+
+    return;
+  }
+
+  self.cleanup = function(blob) {
+    self.vue.imageData = blob;
+    console.log(blob);
+    var reader2 = new FileReader();
+    reader2.onload = function(f) {
+      self.vue.imageUrl = f.target.result;
+      console.log(f.target.result);
+      self.vue.cropping = false;
+      self.vue.$uploadCrop.destroy();
+    }
+    reader2.readAsDataURL(blob);
+  }
+
+  self.submit = function() {
+
+    self.upload_file(self.vue.imageData);
+
+
+  }
+
+  self.edit = function() {
+    //https://stackoverflow.com/questions/4069982/document-getelementbyid-vs-jquery
+    var image = document.getElementsByTagName('IMG');
+    console.log(image[0]);
+    self.vue.$uploadCrop = new Cropper(
+      image[0], {
+        guides: false,
+        ready: function() {
+          self.vue.cropping = true;
+          console.log("attached")
+        }
+      });
+  }
+
+  self.refresh = function() {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      self.vue.imageUrl = e.target.result;
+      self.vue.imageData = self.vue.original;
+      self.vue.$uploadCrop.destroy();
+      self.vue.cropping = false;
+      event.target.value = null;
+    }
+    reader.readAsDataURL(self.vue.original);
   }
 
   self.vue = new Vue({
@@ -64,49 +152,42 @@ var app = function() {
     unsafeDelimiters: ['!{', '}'],
     data: {
       imageData: null,
+      original: null,
       myCrop: null,
       message: null,
       tag: null,
-      image_url: null
+      imageUrl: null,
+      cropping: false,
+      $uploadCrop: null
     },
     methods: {
       previewImage: function(event) {
         // Reference to the DOM input element
+        console.log(event);
         var input = event.target;
-        var $uploadCrop;
         // Ensure that you have a file before attempting to read it
         if (input.files && input.files[0]) {
+          console.log(input.files[0]);
           var reader = new FileReader();
+          if (self.vue.cropping) {
+            self.vue.$uploadCrop.destroy();
+            self.vue.imageUrl = null;
+          }
           reader.onload = function(e) {
-            $uploadCrop.croppie('bind', {
-              url: e.target.result
-            }).then(function() {
-              console.log('jQuery bind complete');
-              $uploadCrop.croppie('rotate', 90);
-              $uploadCrop.croppie('result', {
-                type: 'blob',
-                format: 'jpeg',
-                size: 'viewport'
-              }).then(function(blob) {
-                self.upload_file(blob);
-                console.log(blob);
-                //this.imageData = blob;
-              });
-
-            });
+            self.vue.imageUrl = e.target.result;
+            self.vue.imageData = input.files[0];
+            self.vue.cropping = false;
+            event.target.value = null;
           }
           reader.readAsDataURL(input.files[0]);
+          self.vue.original = input.files[0];
         }
-        $uploadCrop = $('#crop').croppie({
-          viewport: {
-            width: 200,
-            height: 200,
-          },
-          enableResize: true,
-          enableOrientation: true
-        });
-
-      }
+      },
+      save: self.save,
+      rotate: self.rotate,
+      submit: self.submit,
+      edit: self.edit,
+      refresh: self.refresh
     }
   });
 

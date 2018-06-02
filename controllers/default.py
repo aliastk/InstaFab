@@ -44,15 +44,10 @@ def add():
     form = SQLFORM(db.Posts)
     if form.process().accepted:
         session.flash = T("Post added")
-        """writer = MyIndex.backend.ix.writer()
-        writer.add_document(id=unicode(form.vars.id),PostedBy=u'tester')
-        print unicode(form.vars.id)
-        print unicode(auth.user.username)
-        writer.commit()"""
-        redirect(URL('default','test'))
     elif form.errors:
         session.flash = T('Please correct the info')
     return dict(form = form)
+
 
 
 
@@ -134,13 +129,23 @@ def profile():
     return dict(form=auth())
 
 def edit_post():
-    # TODO: find the post in the db and update record
+    id = request.vars.id;
+
     return;
 
 def delete_post():
-    # TODO: delete from database
+    id = request.vars.id;
+    db(db.Posts.id==id).delete();
     return;
+
+def test_search():
+    print MyIndex.search(Tags='green')
+    return
+
+
 def get_posts():
+
+    # return Get_Favorites();
     start_idx = int(request.vars.start_idx) if request.vars.start_idx is not None else 0
     end_idx = int(request.vars.end_idx) if request.vars.end_idx is not None else 0
     search = request.vars.search
@@ -153,7 +158,7 @@ def get_posts():
         user = auth.user.username
 
     if len(search)>0:
-        query = MyIndex.search(search)
+        query = MyIndex.search(Tags=search)
         rows = db(query).select()
     else:
         rows = db().select(db.Posts.ALL)
@@ -173,7 +178,8 @@ def get_posts():
             else:
                 favorited = False
             t = dict(
-                Picture = URL('default','download',args=r.Picture),
+                #Picture = URL('default','download',args=r.Picture),
+                Picture = r.PictureUrl,
                 MyMessage = r.MyMessage,
                 PostedBy = r.PostedBy,
                 CreatedOn = r.CreatedOn.strftime("%B %d, %Y"),
@@ -182,7 +188,8 @@ def get_posts():
                 id = r.id,
                 Dislikes = r.Dislikes,
                 Shopping = r.Shopping,
-                Tags = filter(None,r.Tags.split("#")),
+                #Tags = filter(None,r.Tags.split("#")),
+                Tags = r.Tags,
                 favorited = favorited
             )
             posts.append(t)
@@ -195,34 +202,4 @@ def get_posts():
         has_more=has_more,
         user=user,
         favorites = favorites
-    ))
-
-def GetFavorites():
-    start_idx = int(request.vars.start_idx) if request.vars.start_idx is not None else 0
-    end_idx = int(request.vars.end_idx) if request.vars.end_idx is not None else 10
-    posts = []
-    has_more = False
-    GetFavorites = db(db.Favorites.ListOwner == auth.user).select().first().FavoritesList
-    rows = db(db.Posts.id.belongs(GetFavorites)).select()
-
-    for i, r in enumerate(rows):
-        if i < end_idx - start_idx:
-            t = dict(
-                Picture = URL('default','download',args=r.Picture),
-                MyMessage = r.MyMessage,
-                PostedBy = r.PostedBy,
-                CreatedOn = r.CreatedOn.strftime("%B %d, %Y"),
-                Likes = r.Likes,
-                Dislikes = r.Dislikes,
-                Shopping = r.Shopping,
-                Tags = filter(None,r.Tags.split("#")),
-                favorited = True
-            )
-            posts.append(t)
-        else:
-            has_more = True
-
-    return response.json(dict(
-        posts=posts,
-        has_more=has_more
     ))
