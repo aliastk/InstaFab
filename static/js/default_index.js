@@ -49,12 +49,20 @@ var app = function() {
   };
 
   self.edit_post = function(current_post, index) {
+    current_post.Tags = current_post.FullTag.split('#');
+    //https://stackoverflow.com/questions/35476948/remove-empty-or-whitespace-strings-from-array-javascript
+    current_post.Tags = current_post.Tags.filter(entry => entry.trim() !=
+      '');
     $.post(edit_post, {
         id: current_post.id,
         msg: current_post.MyMessage,
-        tag: current_post.Tags
+        tag: current_post.FullTag
       },
       function(data) {
+        var i = self.vue.posts.findIndex(function(post) {
+          return post.id == current_post.id;
+        });
+        Vue.set(self.vue.posts, i, current_post);
         self.switch_to_edit(current_post);
 
       }

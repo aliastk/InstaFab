@@ -53,7 +53,7 @@
         <div class = "MSG">${post.MyMessage}</div>
 
         <div class="tags">
-            <span v-for="tag in post.Tags.split('#').filter(function(e){return e}) " class = "tag_settings">
+            <span v-for="tag in post.Tags" class = "tag_settings">
               <span>${tag}</span>
             </span>
         </div>
@@ -92,7 +92,7 @@
 
         <img class = "UploadedImage " v-lazy="post.Picture" style="height:50%;width:auto;"/>
         <textarea rows = 2 v-model="post.MyMessage" placeholder="Write a message here"></textarea>
-        <input v-model="post.Tags" placeholder="Use a # to separate tags"></input>
+        <input v-model="post.FullTag" placeholder="Use a # to separate tags"></input>
           <div>
             <a class="btn rounded" v-on:click = "edit_post(post,index)" href="#">Confirm</a>
             <a class="btn rounded" v-on:click = "cancel(post)" href="#">Cancel</a>

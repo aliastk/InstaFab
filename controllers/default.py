@@ -188,8 +188,8 @@ def get_posts():
                 id = r.id,
                 Dislikes = r.Dislikes,
                 Shopping = r.Shopping,
-                #Tags = filter(None,r.Tags.split("#")),
-                Tags = r.Tags,
+                Tags = filter(None,r.Tags.split("#")),
+                FullTag = r.Tags,
                 favorited = favorited
             )
             posts.append(t)
