@@ -89,13 +89,13 @@
   background: repeating-linear-gradient(
   180deg,
   #FFFFFF,
-  #FFFFFF 10px,
-  #A1A1A1 10px,
-  #A1A1A1 25px
+  #FFFFFF 17px,
+  #A1A1A1 12px,
+  #A1A1A1 40px
 );
   background-size: 50px 50px;
   margin: 10%;
-  padding:10%;
+  padding:12%;
   /* This rounds the outer card edges. */
   border-radius: 30px;
 }

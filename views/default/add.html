@@ -22,9 +22,9 @@
   {{=form.custom.end}}
 -->
 
-    <div  id="add-div" class = "masonry" >
+    <div  id="add-div" class="third" style="margin-left:auto;margin-right:auto">
 
-        <div class = "OuterCard post trimMargin">
+        <div class = "OuterCard trimMargin">
           <div class = "blogpost">
               <form action="#" v-on:submit.prevent="submit" class="form-horizontal" enctype="multipart/form-data" method="post">
             <div class = "name">
@@ -38,13 +38,15 @@
               </label>
             </div>
             <div v-if="cropping">
-              <i class="fa fa-refresh fa-2x" v-on:click="refresh"></i>
-              <i class="fa fa-undo fa-2x" v-on:click="rotate(45)" aria-hidden="true"></i>
-              <i class="fa fa-repeat fa-2x" v-on:click="rotate(-45)" aria-hidden="true"></i>
-              <i v-on:click="save" class="fa fa-floppy-o fa-2x" aria-hidden="true"></i>
+              <i v-on:click="save" class="fa fa-check fa-2x" aria-hidden="true"></i>
+              <i class="fa fa-times fa-2x" v-on:click="refresh"></i>
+
+              <i class="change_rotation fa fa-repeat fa-2x" v-on:click="rotate(45)" aria-hidden="true"></i>
+                <i class="change_rotation fa fa-undo fa-2x" v-on:click="rotate(-45)" aria-hidden="true"></i>
+
             </div>
-            <div v-if="imageUrl && !cropping">
-                <a class="btn" v-on:click="edit"> Edit Photo </a>
+            <div class="center" v-if="imageUrl && !cropping">
+                <a class="btn center" v-on:click="edit" style="width:100%"> Edit Photo </a>
             </div>
             <div id ="crop" >
             </div>
