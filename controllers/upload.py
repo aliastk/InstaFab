@@ -80,9 +80,11 @@ def get_download_url():
     ))
 
 def add():
+    import datetime
     db.Posts.insert(
         PictureUrl = request.vars.picture,
         MyMessage = request.vars.MyMessage,
+        CreatedOn = datetime.datetime.utcnow(),
         Tags = request.vars.Tags
     )
     redirect(URL('default','Lookbook'))

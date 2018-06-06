@@ -6,6 +6,7 @@
     //var Switch = "{{=URL('api', 'Switch')}}";
     var delete_post = "{{=URL('default', 'delete_post', user_signature = True)}}";
     var edit_post = "{{=URL('default', 'edit_post', user_signature = True)}}";
+    var favorite = "{{=URL('default', 'favorite', user_signature = True)}}"
     //var add_memo = "{{=URL('api', 'add')}}";
 </script>
 <link href="{{=URL('static','css/masonry.css')}}" rel="stylesheet" type="text/css"/>
@@ -15,7 +16,7 @@
 <div id="vue-div">
 
 <div  class="search" style="margin:0 auto;width:50%;padding-top:3%;">
-  <input type="text" style="border-radius: 9px" v-model="search" placeholder="Search title..."/>
+  <input type="text" style="border-radius: 9px" v-model="search" v-on:keydown.enter="find" placeholder="Search title..."/>
 </div>
 
 <div  class="main_content container masonry display:none">
@@ -38,8 +39,8 @@
         <i class="fa fa-heart checked"></i>
       </label>
       -->
-      <div v-else class="FavButton">
-        <i v-bind:class="[post.favorited ? 'fa fa-heart':'fa fa-heart-o']"></i>
+      <div v-else-if="user != null" class="FavButton">
+        <i v-on:click="favorite(post)" v-bind:class="[post.favorited ? 'fa fa-heart':'fa fa-heart-o']"></i>
       </div>
 
       <div v-if = "!post.edit" class = "post_text">

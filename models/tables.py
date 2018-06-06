@@ -13,6 +13,7 @@
 # after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
 import datetime
+import time
 from plugin_haystack import Haystack,WhooshBackend
 
 def GetUserID():
@@ -24,7 +25,7 @@ db.define_table('Posts',
                 Field('PictureUrl','text'),
                 Field('MyMessage', 'text'),
                 Field('PostedBy','text',writable = False,default = GetUserID()),
-                Field('CreatedOn', 'datetime',writable= False, readable = False, default = datetime.datetime.utcnow()),
+                Field('CreatedOn', 'datetime',writable= False, readable = False),
                 Field('Likes','integer',writable=False,readable=False,default = 0),
                 Field('Dislikes','integer',writable=False,readable=False,default = 0),
                 Field('Shopping','text'),

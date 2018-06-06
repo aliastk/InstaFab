@@ -7,6 +7,8 @@
 # - user is required for authentication and authorization
 # - download is for downloading files uploaded in the db (does streaming)
 # -------------------------------------------------------------------------
+import datetime
+from dateutil import relativedelta
 def test():
     Posts = None
     Posts = db().select(db.Posts.ALL)
@@ -142,7 +144,9 @@ def test_search():
     print MyIndex.search(Tags='green')
     return
 
-
+def favorite():
+    # TODO: Find the user and update the favorite list
+    return
 def get_posts():
 
     # return Get_Favorites();
@@ -170,13 +174,15 @@ def get_posts():
             favorites = GetFavorites.FavoritesList
 
     favorites = set(favorites)
-
+    today = datetime.datetime.utcnow()
     for i, r in enumerate(rows):
         if i < end_idx - start_idx:
             if(r.id in favorites):
                 favorited = True
             else:
                 favorited = False
+            diff = relativedelta.relativedelta(today,r.CreatedOn)
+            print diff.seconds
             t = dict(
                 #Picture = URL('default','download',args=r.Picture),
                 Picture = r.PictureUrl,

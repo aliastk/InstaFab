@@ -1,18 +1,28 @@
 /*Based on https://codeburst.io/how-to-pure-css-masonry-layouts-a8ede07ba31a*/
 
 .masonry{
-  flex-direction: column;
+  flex-direction: row;
   column-count: 1;
   column-gap: 0;
 }
 
- @media (min-width: 800px) {
-  .masonry{
-  flex-direction: column;
-  column-count: 3;
-  column-gap: 0;
-  }
+@media (min-width: 800px) {
+ .masonry{
+ flex-direction: row;
+ column-count: 2;
+ column-gap: 0;
+ }
 }
+
+@media (min-width: 1000px) {
+ .masonry{
+ flex-direction: row;
+ column-count: 3;
+ column-gap: 0;
+ }
+}
+
+
 
 
 .post{

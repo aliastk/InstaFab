@@ -85,6 +85,15 @@ var app = function() {
   }
 
 
+  self.favorite = function(post) {
+    post.favorited = !post.favorited;
+    if(post.favorited){
+      $.post(favorite,{
+        id : post.id,
+      })
+    }
+  }
+
   self.switch_making_post = function() {
     self.vue.making_post = !self.vue.making_post;
     self.vue.post_title = null;
@@ -95,7 +104,7 @@ var app = function() {
 
 
   self.get_posts = function() {
-    $.getJSON(get_tracks_url(0, 15, self.vue.search), function(data) {
+    $.getJSON(get_tracks_url(0, 5, self.vue.search), function(data) {
       self.vue.posts = data.posts;
       self.vue.has_more = data.has_more;
       self.vue.logged_in = data.logged_in;
@@ -126,8 +135,9 @@ var app = function() {
       cancel: self.cancel,
       switch_to_edit: self.switch_to_edit,
       switch_making_post: self.switch_making_post,
-      delete_post: self.delete_post
-
+      delete_post: self.delete_post,
+      find: self.get_posts,
+      favorite : self.favorite
     },
     computed: {
       filteredPosts() {
