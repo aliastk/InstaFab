@@ -15,8 +15,11 @@
 
 <div id="vue-div">
 
-<div  class="search" style="margin:0 auto;width:50%;padding-top:3%;">
-  <input type="text" style="border-radius: 9px" v-model="search" v-on:keydown.enter="find" placeholder="Search title..."/>
+<div  class="container search" style="margin:0 auto;width:50%;padding-top:3%;">
+
+
+  <input  class="search_bar" type="text" style="display: inline; border-radius: 9px; width: 90%" v-model="search" v-on:keydown.enter="find" placeholder="Search title..."/>
+  <i class="search_icon fa fa-search"></i>
 </div>
 
 <div  class="main_content container masonry display:none">
@@ -100,6 +103,7 @@
           </div>
       </div>
     </div>
+
 
 
     </div>

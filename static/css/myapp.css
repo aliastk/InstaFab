@@ -199,6 +199,20 @@
   color: white;
   cursor: pointer;
 }
+.search_icon{
+  margin-left: -29px !important;
+  border-radius: 9px;
+  background-color: white !important;
+  color: gray !important;
+  display: inline !important;
+}
+.search_bar{
+  display: inline !important;
+  border-radius: 9px !important;
+  width: 90% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
 
 li>a{
   color:black
