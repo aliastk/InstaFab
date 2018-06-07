@@ -87,11 +87,9 @@ var app = function() {
 
   self.favorite = function(post) {
     post.favorited = !post.favorited;
-    if(post.favorited){
-      $.post(favorite,{
-        id : post.id,
-      })
-    }
+    $.post(favorite, {
+      id: post.id,
+    })
   }
 
   self.switch_making_post = function() {
@@ -137,7 +135,7 @@ var app = function() {
       switch_making_post: self.switch_making_post,
       delete_post: self.delete_post,
       find: self.get_posts,
-      favorite : self.favorite
+      favorite: self.favorite
     },
     computed: {
       filteredPosts() {
