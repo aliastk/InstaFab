@@ -140,6 +140,9 @@ var app = function() {
     computed: {
       filteredPosts() {
         return this.posts.filter(post => {
+          if (!this.search.includes("#")) {
+            return post
+          }
           fields = post.Tags;
           tokens = this.search.split("#").filter(token => token !=
             "");

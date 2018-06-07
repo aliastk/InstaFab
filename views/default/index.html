@@ -42,8 +42,8 @@
         <i class="fa fa-heart checked"></i>
       </label>
       -->
-      <div v-else-if="user != null" class="FavButton">
-        <i v-on:click="favorite(post)" v-bind:class="[post.favorited ? 'fa fa-heart':'fa fa-heart-o']"></i>
+      <div v-else class="FavButton">
+        <i v-if="user != null" v-on:click="favorite(post)" v-bind:class="[post.favorited ? 'fa fa-heart':'fa fa-heart-o']"></i>
       </div>
 
       <div v-if = "!post.edit" class = "post_text">

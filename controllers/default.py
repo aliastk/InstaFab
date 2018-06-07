@@ -146,6 +146,26 @@ def test_search():
 
 def favorite():
     # TODO: Find the user and update the favorite list
+    print "called"
+    print type(request.vars.id)
+    print auth.user
+    row = db(db.Favorites.ListOwner == auth.user).select().first()
+    print type(row)
+    print row.ListOwner
+    if(row is None):
+        db.Favorites.insert(ListOwner = auth.user,
+                            FavoritesList = [int(request.vars.id)])
+        print "none"
+    else:
+        favorites = row.FavoritesList
+        if(int(request.vars.id) in row.FavoritesList):
+            print "found"
+            row.FavoritesList.remove(int(request.vars.id))
+        else:
+            print "not found"
+            row.FavoritesList.append(int(request.vars.id))
+        row.update_record()
+
     return
 def get_posts():
 
@@ -153,28 +173,38 @@ def get_posts():
     start_idx = int(request.vars.start_idx) if request.vars.start_idx is not None else 0
     end_idx = int(request.vars.end_idx) if request.vars.end_idx is not None else 0
     search = request.vars.search
-    posts = []
-    has_more = False
-
+    who = request.vars.who if request.vars.who is not None else None
+    viewFavorites = bool(request.vars.viewFavorites) if request.vars.viewFavorites is not None else False
     logged_in = auth.user is not None
     user = None;
+    query = db.Posts._id>0
+
     if auth.user is not None:
         user = auth.user.username
 
-    if len(search)>0:
-        query = MyIndex.search(Tags=search)
-        rows = db(query).select()
-    else:
-        rows = db().select(db.Posts.ALL)
+    if(not who is None):
+        query = query & (db.Posts.PostedBy == who)
 
     favorites = []
+
     if(logged_in):
         GetFavorites = db(db.Favorites.ListOwner == auth.user).select().first()
         if(GetFavorites != None):
             favorites = GetFavorites.FavoritesList
 
+    if(viewFavorites):
+        query = query & db.Posts._id.belongs(favorites)
+
+    if ((search is not None) and (len(search)>0)):
+        query = query & MyIndex.search(Tags=search)
+
+    rows = db(query).select()
+
     favorites = set(favorites)
     today = datetime.datetime.utcnow()
+    posts = []
+    has_more = False
+
     for i, r in enumerate(rows):
         if i < end_idx - start_idx:
             if(r.id in favorites):
