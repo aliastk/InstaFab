@@ -85,6 +85,10 @@ def add():
         PictureUrl = request.vars.picture,
         MyMessage = request.vars.MyMessage,
         CreatedOn = datetime.datetime.utcnow(),
-        Tags = request.vars.Tags
+        Tags = request.vars.Tags,
+        rating = 50.0,
+        Recency = datetime.datetime.now(),
+        search_rating = 50.0,
+        search_recency = datetime.datetime.now()
     )
-    redirect(URL('default','Lookbook'))
+    return "ok"

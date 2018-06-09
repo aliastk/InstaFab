@@ -24,7 +24,7 @@ def index():
     """
 
     Posts = None
-    Posts = db().select(db.Posts.ALL)
+    #Posts = db().select(db.Posts.ALL)
     return dict(Posts = Posts)
 
 def Lookbook():
@@ -127,8 +127,9 @@ def call():
     return service()
 
 def profile():
-    user = db(db.auth_user.username == request.args(0)).select()
-    return dict(form=auth())
+    Posts = None
+    #Posts = db().select(db.Posts.ALL)
+    return dict(Posts = Posts)
 
 def edit_post():
     id = request.vars.id;
@@ -151,7 +152,6 @@ def favorite():
     print auth.user
     row = db(db.Favorites.ListOwner == auth.user).select().first()
     print type(row)
-    print row.ListOwner
     if(row is None):
         db.Favorites.insert(ListOwner = auth.user,
                             FavoritesList = [int(request.vars.id)])
@@ -167,38 +167,96 @@ def favorite():
         row.update_record()
 
     return
+
+def LikeOrDislike():
+    #true is upvote, false is downvote
+    id = int(request.vars.id)
+    if(request.vars.vote is None):
+        return "no vote"
+    vote = request.vars.vote == 'true'
+    print(vote)
+    check = db((db.Vote.Voter == auth.user) & (db.Vote.Post == id)).select(limitby=(0,1)).first();
+    print check
+    if (check is not None):
+        print "record"
+        check.UpVote = vote
+        check.update_record()
+        if vote:
+            check.Post.Likes+=1
+            check.Post.Dislikes-=1
+        else:
+            check.Post.Dislikes+=1
+            check.Post.Likes-=1
+    else:
+        print "No record"
+        check = db.Vote.insert(
+            Voter = auth.user,
+            Post = id,
+            UpVote = vote
+        )
+        check = db.Vote(check)
+        print check
+        if vote:
+            check.Post.Likes+=1
+        elif(vote == False):
+            check.Post.Dislikes+=1
+
+        print "record"
+
+    if(vote):
+        check.Post.rating +=1
+        check.Post.search_rating +1
+    elif(vote == False):
+        check.Post.rating -=1
+        check.Post.search_rating -=1
+
+    check.Post.update_record()
+    return response.json(dict(
+        vote = check.UpVote
+    ))
+
 def get_posts():
+        start_idx = int(request.vars.start_idx) if request.vars.start_idx is not None else 0
+        end_idx = int(request.vars.end_idx) if request.vars.end_idx is not None else 0
+        search = request.vars.search
+        who = request.vars.who if request.vars.who is not None else None
+        viewFavorites = request.vars.viewFavorites if request.vars.viewFavorites is not None else False
+        logged_in = auth.user is not None
+        user = None
+        query = db.Posts._id>0
+        searching = False
 
+        if auth.user is not None:
+            user = auth.user.username
+
+        if(who=="true"):
+            print "true"
+            query = query & (db.Posts.PostedBy==auth.user.username)
+            searching = True
+
+        favorites = []
+
+        if(logged_in):
+            GetFavorites = db(db.Favorites.ListOwner == auth.user).select().first()
+            if(GetFavorites != None):
+                favorites = GetFavorites.FavoritesList
+
+        if(viewFavorites=="true"):
+            query = query & db.Posts._id.belongs(favorites)
+
+        if ((search is not None) and (len(search)>0)):
+            query = query & MyIndex.search(Tags=search)
+            searching = True;
+        return get_posts_handler(query,favorites,start_idx,end_idx,logged_in,searching,user)
+
+def get_posts_handler(query,favorites,start_idx,end_idx,logged_in,searching,user):
+    from math import exp
     # return Get_Favorites();
-    start_idx = int(request.vars.start_idx) if request.vars.start_idx is not None else 0
-    end_idx = int(request.vars.end_idx) if request.vars.end_idx is not None else 0
-    search = request.vars.search
-    who = request.vars.who if request.vars.who is not None else None
-    viewFavorites = bool(request.vars.viewFavorites) if request.vars.viewFavorites is not None else False
-    logged_in = auth.user is not None
-    user = None;
-    query = db.Posts._id>0
 
-    if auth.user is not None:
-        user = auth.user.username
-
-    if(not who is None):
-        query = query & (db.Posts.PostedBy == who)
-
-    favorites = []
-
-    if(logged_in):
-        GetFavorites = db(db.Favorites.ListOwner == auth.user).select().first()
-        if(GetFavorites != None):
-            favorites = GetFavorites.FavoritesList
-
-    if(viewFavorites):
-        query = query & db.Posts._id.belongs(favorites)
-
-    if ((search is not None) and (len(search)>0)):
-        query = query & MyIndex.search(Tags=search)
-
-    rows = db(query).select()
+    if(searching):
+        rows = db(query).select(orderby=~db.Posts.search_rating)
+    else:
+        rows = db(query).select(orderby=~db.Posts.rating)
 
     favorites = set(favorites)
     today = datetime.datetime.utcnow()
@@ -206,13 +264,19 @@ def get_posts():
     has_more = False
 
     for i, r in enumerate(rows):
+        print r
         if i < end_idx - start_idx:
             if(r.id in favorites):
                 favorited = True
             else:
                 favorited = False
-            diff = relativedelta.relativedelta(today,r.CreatedOn)
-            print diff.seconds
+
+            vote = None
+            if logged_in:
+                vote = db((db.Vote.Voter == auth.user) & (db.Vote.Post == r.id)).select(limitby=(0,1)).first();
+                if vote:
+                    vote = vote.UpVote
+
             t = dict(
                 #Picture = URL('default','download',args=r.Picture),
                 Picture = r.PictureUrl,
@@ -221,6 +285,7 @@ def get_posts():
                 CreatedOn = r.CreatedOn.strftime("%B %d, %Y"),
                 Likes = r.Likes,
                 edit = False,
+                voted = vote,
                 id = r.id,
                 Dislikes = r.Dislikes,
                 Shopping = r.Shopping,
@@ -228,6 +293,21 @@ def get_posts():
                 FullTag = r.Tags,
                 favorited = favorited
             )
+
+
+            if(searching and logged_in and r.PostedBy is not auth.user.username):
+                timediff = datetime.datetime.now() - r.search_recency
+                timediff = timediff.total_seconds()/60
+                r.search_rating = r.search_rating*exp(-1*timediff)
+                r.search_recency = datetime.datetime.now()
+            elif(not searching):
+                timediff = datetime.datetime.now() - r.Recency
+                timediff = timediff.total_seconds()/60
+                r.rating = r.rating*exp(-1*timediff)
+                r.Recency = datetime.datetime.now()
+
+            r.update_record()
+
             posts.append(t)
         else:
             has_more = True

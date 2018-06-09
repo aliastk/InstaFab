@@ -29,12 +29,22 @@ db.define_table('Posts',
                 Field('Likes','integer',writable=False,readable=False,default = 0),
                 Field('Dislikes','integer',writable=False,readable=False,default = 0),
                 Field('Shopping','text'),
-                Field('Tags','string' , default="all", required=True)
+                Field('Tags','string' , default="all", required=True),
+                Field('rating','float'),
+                Field('search_rating','float'),
+                Field('search_recency','datetime'),
+                Field('Recency','datetime')
                 )
 
 db.define_table('Favorites',
                 Field('ListOwner','reference auth_user'),
                 Field('FavoritesList','list:reference Posts')
+               )
+
+db.define_table('Vote',
+                Field('Voter','reference auth_user'),
+                Field('Post','reference Posts'),
+                Field('UpVote','boolean')
                )
 
 db.executesql('CREATE INDEX IF NOT EXISTS mytagx ON Posts (Tags);')

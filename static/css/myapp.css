@@ -10,7 +10,7 @@
   font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif;
 }
 .menu>li{
-  padding:5px;
+  padding:10px;
 }
 
 .MainBackgroundColor{
@@ -36,6 +36,11 @@
   color: black;
 }
 
+@media (min-width: 800px){
+  .load{
+    margin-left: 33%;
+  }
+}
 .UploadedImage{
   padding: 5%;
   display: block;
@@ -223,10 +228,17 @@ li>a:not(.btn):not(.noeffect):hover {
 li>a:not(.btn):not(.noeffect):after {background-color:rgba(0, 0, 0, 0.0001)}
 li:not(.btn):not(.noeffect):hover {
     background-color:#32ddcb;
-    border-bottom: 2px solid white;
 }
 li:not(.btn):not(.noeffect):hover>a{
     color:white;
+}
+.active{
+  background-color:#32ddcb;
+  color:white;
+}
+
+.load{
+
 }
 .btn, button, [type=button], [type=submit] {background-color:#26a69a; color:white}
 .progress .determinate {background-color:#26a69a}

@@ -1,16 +1,17 @@
 {{extend 'layout.html'}}
-{{block head}}
+
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
 <script src="{{=URL('static', 'js/croppie.js')}}"></script>
 <link href="{{=URL('static','css/cropper.min.css')}}" rel="stylesheet" type="text/css"/>
 <script src="{{=URL('static', 'js/cropper.min.js')}}"></script>
 <link href="{{=URL('static','css/croppie.css')}}" rel="stylesheet" type="text/css"/>
 <link href="{{=URL('static','css/add_post.css')}}" rel="stylesheet" type="text/css"/>
-<link href="{{=URL('static','css/dropzone.css')}}" rel="stylesheet" type="text/css"/>
+{{block head}}
 <script>
   var upload = "{{=URL('upload', 'get_upload_url')}}";
   var download = "{{=URL('upload', 'get_download_url')}}";
   var add = "{{=URL('upload', 'add')}}"
+  var lookbook = "{{=URL('default', 'profile')}}"
 </script>
 <div class = "MyContent fill">
 <!--
@@ -31,12 +32,13 @@
               <a>{{=auth.user.username}}</a>
             </div>
             <div class = "UploadImage">
-              <label>
+              <label class="camera" v-on:>
                 <i class = "fa fa-camera" style="font-size:2em"></i>
                 Upload Photo
                 <input class="upload input-file" id="Posts_Picture" name="Picture" type="file" style="display:None" v-on:change="previewImage"/>
               </label>
             </div>
+            <p v-if="PhotoError" style="color:red;text-align:center;">You must upload an image</p>
             <div v-if="cropping">
               <i v-on:click="save" class="fa fa-check fa-2x" aria-hidden="true"></i>
               <i class="fa fa-times fa-2x" v-on:click="refresh"></i>
@@ -52,16 +54,20 @@
             </div>
 
             <div>
-              <img id="image" v-bind:src="imageUrl" v-on:click="" class="UploadedImage" onerror="this.src = '{{=URL('static/images','giphy.gif')}}' "></img>
+              <img id="image" v-bind:src="imageUrl"  class="UploadedImage" onerror="this.src = '{{=URL('static/images','giphy.gif')}}' "></img>
             </div>
             <div id="myId"> </div>
             <div class = "EnterMSG">
               <textarea class="text form-control" cols="40" id="Posts_MyMessage" name="MyMessage" rows="10" v-model="message" placeholder="Enter a message here"></textarea>
             </div>
             <div class = "EnterTag">
-              <input type="text" v-model="tag" placeholder="#seperate #with #hashtags"/>
+              <input type="text" v-model="tag"  v-on:blur="tagging = true" :class="{danger:TagError}" placeholder="#seperate #with #hashtags"/>
+              <p v-if="TagError" style="color:red">Atleast one tag is required</p>
             </div>
-            <div class = "SubmitButton"><input type="submit" value="Submit" class="btn btn-primary"></div>
+            <div class = "SubmitButton">
+              <input type="submit" v-on:mouseover="tagging=true;submitting=true" value="Submit" class="btn btn-primary" :class="[ready ? '':'disable']" :disabled="!ready && clicked">
+              </input>
+            </div>
             </form>
         </div>
       </div>

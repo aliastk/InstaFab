@@ -104,20 +104,21 @@ var app = function() {
   self.get_posts = function() {
     self.loading = true;
     $.post(get_posts, {
-        start_idx: self.vue.start,
-        end_idx: self.vue.end,
-        search: self.vue.search
-      },
-      function(data) {
-        self.vue.posts = data.posts;
-        self.vue.has_more = data.has_more;
-        self.vue.logged_in = data.logged_in;
-        self.vue.user = data.user;
-        self.vue.loading = false;
-        self.vue.start = self.vue.end;
-        self.vue.end = self.vue.start + 10;
-        console.log(data);
-      })
+      start_idx: self.vue.start,
+      end_idx: self.vue.end,
+      search: self.vue.search,
+      who: self.vue.self,
+      viewFavorites: self.vue.MyFavorites
+    }, function(data) {
+      self.vue.posts = data.posts;
+      self.vue.has_more = data.has_more;
+      self.vue.logged_in = data.logged_in;
+      self.vue.user = data.user;
+      self.vue.loading = false;
+      self.vue.start = self.vue.end;
+      self.vue.end = self.vue.start + 10;
+      console.log(data);
+    })
   };
 
   self.downvote = function(post) {
@@ -134,15 +135,26 @@ var app = function() {
   }
 
   self.upvote = function(post) {
-      if (post.voted == false) {
-        post.Dislikes--;
-      }
-      post.Likes++;
-      $.post(LikeOrDislike, {
-        id: post.id,
-        vote: true
-      })
-      post.voted = true;
+    if (post.voted == false) {
+      post.Dislikes--;
+    }
+    post.Likes++;
+    $.post(LikeOrDislike, {
+      id: post.id,
+      vote: true
+    })
+    post.voted = true;
+  }
+  self.MyPost = function() {
+    self.vue.self = true;
+    self.vue.MyFavorites = false;
+    self.get_posts();
+  }
+
+  self.GetFavorites = function() {
+      self.vue.self = false;
+      self.vue.MyFavorites = true;
+      self.get_posts();
     }
     // Complete as needed.
   self.vue = new Vue({
@@ -161,8 +173,12 @@ var app = function() {
       post_content: null,
       making_post: false,
       loading: false,
+      MyPost: true,
+      MyFavorites: false,
+      self: true,
       start: 0,
       end: 10
+
     },
     methods: {
       edit_post: self.edit_post,
@@ -173,7 +189,9 @@ var app = function() {
       find: self.get_posts,
       favorite: self.favorite,
       downvote: self.downvote,
-      upvote: self.upvote
+      upvote: self.upvote,
+      MyPost: self.MyPost,
+      GetFavorites: self.GetFavorites
     },
     computed: {
       filteredPosts() {

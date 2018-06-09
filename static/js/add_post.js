@@ -58,14 +58,22 @@ var app = function() {
     $.getJSON(download, {
       image_path: key
     }, function(data) {
-      console.log(data);
-      $.getJSON(add, {
-        picture: data.get_url,
-        MyMessage: self.vue.message,
-        Tags: self.vue.tag
-      })
-    })
+      console.log("done");
+      self.add_to_post(data);
+    });
     console.log('The file was uploaded; it is now available at ');
+  }
+
+  self.add_to_post = function(data) {
+    console.log("posting")
+    $.post(add, {
+      picture: data.get_url,
+      MyMessage: self.vue.message,
+      Tags: self.vue.tag
+    }, function(post) {
+      window.location.href = lookbook;
+      console.log(post)
+    });
   }
 
   self.rotate = function(degrees) {
@@ -114,10 +122,12 @@ var app = function() {
   }
 
   self.submit = function() {
-
+    self.vue.clicked = true;
+    if (self.vue.imageData == null || self.vue.tag == null) {
+      console.log("disabled")
+      return
+    }
     self.upload_file(self.vue.imageData);
-
-
   }
 
   self.edit = function() {
@@ -158,7 +168,12 @@ var app = function() {
       tag: null,
       imageUrl: null,
       cropping: false,
-      $uploadCrop: null
+      $uploadCrop: null,
+      tagging: false,
+      submit_help: "help",
+      clicked: false,
+      submitting: false,
+
     },
     methods: {
       previewImage: function(event) {
@@ -188,7 +203,26 @@ var app = function() {
       submit: self.submit,
       edit: self.edit,
       refresh: self.refresh
+    },
+    computed: {
+      TagError() {
+          if (this.tagging) {
+            return this.tag == null || this.tag.length <= 0;
+          }
+          return false
+        },
+        ready() {
+          return this.imageData != null && this.tag != null && this.tag.length >=
+            0;
+        },
+        PhotoError() {
+          if (this.submitting) {
+            return this.imageData == null
+          }
+          return false
+        }
     }
+
   });
 
   $("#add-div").show();

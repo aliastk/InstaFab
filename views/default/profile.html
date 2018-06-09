@@ -1,39 +1,171 @@
 {{extend 'layout.html'}}
-
+<script src="{{=URL('static', 'js/vue.js')}}"></script>
+<script>
+    //var my_url = "{{=URL('api', 'my_method')}}";
+    //var Switch = "{{=URL('api', 'Switch')}}";
+    var delete_post = "{{=URL('default', 'delete_post', user_signature = True)}}";
+    var edit_post = "{{=URL('default', 'edit_post', user_signature = True)}}";
+    var favorite = "{{=URL('default', 'favorite', user_signature = True)}}";
+    var LikeOrDislike = "{{=URL('default','LikeOrDislike', user_signature = True)}}";
+    var get_posts = "{{=URL('default','get_posts', user_signature = True)}}";
+</script>
+<link href="{{=URL('static','css/masonry.css')}}" rel="stylesheet" type="text/css"/>
 {{block head}}
 {{end}}
 
+<div id="vue-div">
 
-<div class="main_content container">
-  <div class="small_profile quarter">
+<div  class="main_content container" >
+  <p v-if="self" style="font-size:3em;text-align:center"> My Posts </p>
+  <p v-if="MyFavorites" style="font-size:3em;text-align:center"> Favorites </p>
+  <div class="small_profile sidebar" style="height:100%">
     <div class="text_settings">
 
-    <img class="profile_pic" src="{{=URL('default', 'download', args= auth.user.profile_pic)}}"/>
-
+    <img class="profile_pic" src="{{=URL('static/images','avatar.png')}}"/>
     <div class="full_name">
 
-      {{=auth.user.first_name + " " + auth.user.last_name }}
-
-
     </div>
-
-    <div class="bio">
-      {{=auth.user.bio}}
+    <div  class="search" style="margin-left:10px auto;padding-top:3%;">
+      <input type="text" style="display: inline; border-radius: 9px; width: 90%; margin-left:10px" v-model="search" v-on:keydown.enter="find" placeholder="filter with # press enter to search"/>
+      <i class="search_icon fa fa-search"></i>
     </div>
-    <div class="info_text">
-    <div class="occupation">
-      {{=auth.user.occupation}}
-    </div>
-      <div class="lives_in">
-
-          {{=auth.user.city + ", " + auth.user.territory + ", " + auth.user.country}}
-
-    </div>
-
-    <div class="phone_number">
-      {{=auth.user.phone_number}}
-    </div>
-  </div>
-  </div>
-  </div>
+    <ul class="menu">
+      <li v-on:click="MyPost" style="width:100%" v-bind:class="[self ? 'active':'']"><a>My Posts</a></li>
+      <li v-on:click="GetFavorites" style="width:100%" v-bind:class="[MyFavorites ? 'active':'']" ><a>My Favorites</a></li>
+      <li style="width:100%"><a href="{{=URL('default','add')}}">Add Post</a></li>
+    </ul>
 </div>
+</div>
+  <div v-if="filteredPosts.length == 0" style="height:100%">
+  </div>
+
+    <div class = "third post" v-for="post in filteredPosts" :key="post.id">
+      <div class = "OuterCard">
+        <div class = "blogpost">
+
+
+
+
+        <a v-if="user == post.PostedBy" class="EditPost" v-on:click="switch_to_edit(post)" href="#popup1" >
+            <i class="fa fa-edit fa-lg"></i>
+        </a>
+
+        <!---
+        <label v-else class="FavButton">
+          <input type ="checkbox">
+          <i class="fa fa-heart-o unchecked"></i>
+          <i class="fa fa-heart checked"></i>
+        </label>
+        -->
+        <div v-else class="FavButton">
+          <i v-if="user != null" v-on:click="favorite(post)" v-bind:class="[post.favorited ? 'fa fa-heart':'fa fa-heart-o']"></i>
+        </div>
+
+        <div v-if = "!post.edit" class = "post_text">
+
+          <div class = "Author"><a>${post.PostedBy}</a>
+            <!-- https://stackoverflow.com/questions/12605934/formatting-date-in-web2py-python -->
+              <div class= "PostDate">${post.CreatedOn}</div>
+          </div>
+
+          <img class = "UploadedImage " v-lazy="post.Picture"/>
+          <div class = "MSG">${post.MyMessage}</div>
+
+          <div class="tags">
+              <span v-for="tag in post.Tags" class = "tag_settings">
+                <span>${tag}</span>
+              </span>
+          </div>
+        </div>
+
+      <div v-else class="post_text">
+
+        <div class = "Author"><a>${post.PostedBy}</a>
+          <!-- https://stackoverflow.com/questions/12605934/formatting-date-in-web2py-python -->
+            <div class= "PostDate">${post.CreatedOn}</div>
+        </div>
+
+        <img class = "UploadedImage " v-lazy="post.Picture"/>
+        <!--
+        <div class = "MSG">${post.MyMessage}</div>
+
+        <div class="tags">
+            <span v-for="tag in post.Tags" class = "tag_settings">
+              <span>${tag}</span>
+            </span>
+        </div>
+      -->
+
+
+
+        <div class="center spaced padded">
+
+      </div>
+      <div class="modal" id="popup1">
+        <div class="third rounded white padded">
+          <div class="right">
+          <i v-on:click = "cancel(post)"href="#" class="fa fa-times-circle close close_modal"></i></a>
+          </div>
+          <h2>Edit Mode</h2>
+
+
+          <img class = "UploadedImage " v-lazy="post.Picture" style="height:50%;width:auto;"/>
+          <textarea rows = 2 v-model="post.MyMessage" placeholder="Write a message here"></textarea>
+          <input v-model="post.FullTag" placeholder="Use a # to separate tags"></input>
+            <div>
+              <a class="btn rounded" v-on:click = "edit_post(post,index)" href="#">Confirm</a>
+              <a class="btn rounded" v-on:click = "cancel(post)" href="#">Cancel</a>
+            </div>
+        </div>
+      </div>
+
+
+
+      </div>
+
+
+
+        <div class="ButtonArea container">
+          <div class = "Button">
+            <label class = "LikeButton">
+              <input type="checkbox" v-on:click="upvote(post)" :disabled="user == null || post.voted" :checked="post.voted">
+              <i class="fa fa-thumbs-o-up unchecked"></i>
+              <i class ="fa fa-thumbs-up checked"></i>
+            </label>
+            ${post.Likes}
+          </div>
+
+          <div class = "Button">
+            <label class="UnlikeButton">
+              <input type="checkbox" v-on:click="downvote(post)" :disabled="user == null || post.voted == false" :checked="post.voted==false" :unchecked="post.voted">
+              <i class="fa fa-thumbs-o-down unchecked" aria-hidden="true"></i>
+              <i class="fa fa-thumbs-down checked"></i>
+            </label>
+            ${post.Dislikes}
+          </div>
+          <div style="display:inline-block">
+            <a v-if="user == post.PostedBy" class="DeletePost">
+              <i v-on:click = "delete_post(post.id)"class="fa fa-trash-o fa-lg"></i>
+            </a>
+          <!-- do not show trash can -->
+          <!-- show the shobbing basket icon -->
+            <a v-else>
+              <i class="ShoppingIcon fa fa-shopping-basket"></i>
+            </a>
+          </div>
+
+        </div>
+
+        </div>
+      </div>
+    </div>
+    </div>
+        <button v-if="has_more" v-click="find" class="third load"> Load More </button>
+  </div>
+
+
+
+
+</div>
+</div>
+<script src="{{=URL('static', 'js/profile.js')}}"></script>

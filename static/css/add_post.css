@@ -14,6 +14,15 @@
   display: flex;
   flex-flow: column;
 }
+.danger{
+  border: 1px solid #d43f3a !important;
+}
+input:not([type=file]){
+  border-radius: 7px
+}
+textarea{
+  border-radius: 7px
+}
 .preview{
   width:100%;
 }
@@ -34,4 +43,16 @@
 }
 .EnterMSG{
   margin: 0;
+}
+.camera:hover{
+  color:#26a69a;
+  cursor: pointer;
+}
+.btn:disabled{
+  background-color: grey;
+  cursor: not-allowed;
+}
+.disable{
+  background-color: grey;
+  cursor: not-allowed !important;
 }

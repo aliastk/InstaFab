@@ -33,9 +33,8 @@ if auth.is_logged_in ():
     response.menu = [
         (CAT(I(_class='fa fa-diamond'), T(' InstaFab')), False, URL('default', 'index')),
         (T('Feed'), False, URL('default', 'index'), []),
-        (T('My Favorites'), False, URL('default', 'GetFavorites'), []),
-        (T('My Lookbook'), False, URL('default', 'Lookbook'), []),
-        (T('My Profile'), False, URL('default', 'profile'), [])
+        (T('Add Post'), False, URL('default', 'add'), []),
+        (T('My Profile'), False, URL('default','profile'), [])
     ]
 else:
     response.menu = [

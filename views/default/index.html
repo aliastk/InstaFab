@@ -6,7 +6,9 @@
     //var Switch = "{{=URL('api', 'Switch')}}";
     var delete_post = "{{=URL('default', 'delete_post', user_signature = True)}}";
     var edit_post = "{{=URL('default', 'edit_post', user_signature = True)}}";
-    var favorite = "{{=URL('default', 'favorite', user_signature = True)}}"
+    var favorite = "{{=URL('default', 'favorite', user_signature = True)}}";
+    var LikeOrDislike = "{{=URL('default','LikeOrDislike', user_signature = True)}}";
+    var get_posts = "{{=URL('default','get_posts', user_signature = True)}}";
     //var add_memo = "{{=URL('api', 'add')}}";
 </script>
 <link href="{{=URL('static','css/masonry.css')}}" rel="stylesheet" type="text/css"/>
@@ -18,11 +20,14 @@
 <div  class="container search" style="margin:0 auto;width:50%;padding-top:3%;">
 
 
-  <input  class="search_bar" type="text" style="display: inline; border-radius: 9px; width: 90%" v-model="search" v-on:keydown.enter="find" placeholder="Search title..."/>
+  <input  class="search_bar" type="text" style="display: inline; border-radius: 9px; width: 90%" v-model="search" v-on:keydown.enter="find" placeholder="filter with # press enter to search"/>
   <i class="search_icon fa fa-search"></i>
-</div>
 
-<div  class="main_content container masonry display:none">
+</div>
+<div  class="main_content container display:none" v-bind:class="[filteredPosts.length<=0? '':'masonry']">
+
+  <div v-if="filteredPosts.length == 0" style="height:100%">
+  </div>
 
   <div class = "post" v-for="(post,index) in filteredPosts">
     <div class = "OuterCard">
@@ -110,23 +115,23 @@
 
 
 
-      <div v-if="logged_in" class="ButtonArea container">
+      <div class="ButtonArea container">
         <div class = "Button">
           <label class = "LikeButton">
-            <input type="checkbox">
+            <input type="checkbox" v-on:click="upvote(post)" :disabled="user == null || post.voted" :checked="post.voted">
             <i class="fa fa-thumbs-o-up unchecked"></i>
             <i class ="fa fa-thumbs-up checked"></i>
           </label>
-          123
+          ${post.Likes}
         </div>
 
         <div class = "Button">
           <label class="UnlikeButton">
-            <input type="checkbox">
+            <input type="checkbox" v-on:click="downvote(post)" :disabled="user == null || post.voted == false" :checked="post.voted==false" :unchecked="post.voted">
             <i class="fa fa-thumbs-o-down unchecked" aria-hidden="true"></i>
             <i class="fa fa-thumbs-down checked"></i>
           </label>
-          23
+          ${post.Dislikes}
         </div>
         <div style="display:inline-block">
           <a v-if="user == post.PostedBy" class="DeletePost">
@@ -143,8 +148,10 @@
 
       </div>
     </div>
-  </div>
-</div>
 
+  </div>
+
+</div>
+  <button v-if="has_more" v-click="find" class="third load"> Load More </button>
 </div>
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>
