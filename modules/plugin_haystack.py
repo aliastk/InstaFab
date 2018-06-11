@@ -22,7 +22,7 @@ import re
 import os
 from gluon import Field
 
-DEBUG = True
+DEBUG = False
 
 class SimpleBackend(object):
     regex = re.compile('[\w\-]{2}[\w\-]+')
@@ -50,7 +50,7 @@ class SimpleBackend(object):
         if DEBUG: print self.db(self.idx).select()
         return True
     def after_update(self,queryset,fields):
-        if DEBUG: print 'after update',queryset,fields
+        """if DEBUG: print 'after update',queryset,fields"""
         db = self.db
         for id in self.get_ids(queryset):
             for fieldname in self.fieldnames:
@@ -69,7 +69,7 @@ class SimpleBackend(object):
                             fieldname = fieldname,
                             keyword = new_word,
                             record_id = id)
-        if DEBUG: print self.db(self.idx).select()
+        """if DEBUG: print self.db(self.idx).select()"""
         return True
     def get_ids(self,queryset):
         return [r.id for r in queryset.select(self.table._id)]

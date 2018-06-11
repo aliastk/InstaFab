@@ -103,6 +103,7 @@ var app = function() {
 
   self.get_posts = function() {
     self.loading = true;
+    console.log("find more")
     $.post(get_posts, {
       start_idx: self.vue.start,
       end_idx: self.vue.end,
@@ -115,8 +116,7 @@ var app = function() {
       self.vue.logged_in = data.logged_in;
       self.vue.user = data.user;
       self.vue.loading = false;
-      self.vue.start = self.vue.end;
-      self.vue.end = self.vue.start + 10;
+      self.vue.end = self.vue.end + 10;
       console.log(data);
     })
   };

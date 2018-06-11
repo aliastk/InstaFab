@@ -81,7 +81,12 @@ def get_download_url():
 
 def add():
     import datetime
-    db.Posts.insert(
+    if(request.vars.shopping is not None and sendlink(request.vars.shopping) == "unsafe"):
+        return "unsafe"
+
+    if "//" not in request.vars.shopping:
+        request.vars.shopping = "//"+request.vars.shopping
+    post = db.Posts.insert(
         PictureUrl = request.vars.picture,
         MyMessage = request.vars.MyMessage,
         CreatedOn = datetime.datetime.utcnow(),
@@ -89,6 +94,20 @@ def add():
         rating = 50.0,
         Recency = datetime.datetime.now(),
         search_rating = 50.0,
-        search_recency = datetime.datetime.now()
+        search_recency = datetime.datetime.now(),
+        Shopping = request.vars.shopping
     )
+    return "ok"
+
+def check():
+    return sendlink(request.vars.link)
+
+def sendlink(link):
+    import safebrowsing
+    import json
+    apikey = myconf.get('lookup.key')
+    sb = safebrowsing.LookupAPI(apikey)
+    resp = sb.threat_matches_find(link)
+    if u'matches' in resp:
+        return "unsafe"
     return "ok"

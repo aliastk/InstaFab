@@ -20,21 +20,23 @@ def GetUserID():
     return auth.user.username if auth.user is not None else None
 
 
+
 db.define_table('Posts',
-                Field('Picture','upload'),
                 Field('PictureUrl','text'),
                 Field('MyMessage', 'text'),
                 Field('PostedBy','text',writable = False,default = GetUserID()),
                 Field('CreatedOn', 'datetime',writable= False, readable = False),
                 Field('Likes','integer',writable=False,readable=False,default = 0),
                 Field('Dislikes','integer',writable=False,readable=False,default = 0),
-                Field('Shopping','text'),
                 Field('Tags','string' , default="all", required=True),
                 Field('rating','float'),
                 Field('search_rating','float'),
                 Field('search_recency','datetime'),
-                Field('Recency','datetime')
+                Field('Recency','datetime'),
+                Field('Shopping','text')
                 )
+
+
 
 db.define_table('Favorites',
                 Field('ListOwner','reference auth_user'),
@@ -47,8 +49,6 @@ db.define_table('Vote',
                 Field('UpVote','boolean')
                )
 
-db.executesql('CREATE INDEX IF NOT EXISTS mytagx ON Posts (Tags);')
-db.executesql('CREATE INDEX IF NOT EXISTS myPosterx ON Posts (PostedBy);')
 MyIndex = Haystack(db.Posts)
 MyIndex.indexes('PostedBy','Tags')
     #writer = MyIndex.backend.ix.writer()

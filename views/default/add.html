@@ -1,16 +1,15 @@
 {{extend 'layout.html'}}
 
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
-<script src="{{=URL('static', 'js/croppie.js')}}"></script>
 <link href="{{=URL('static','css/cropper.min.css')}}" rel="stylesheet" type="text/css"/>
 <script src="{{=URL('static', 'js/cropper.min.js')}}"></script>
-<link href="{{=URL('static','css/croppie.css')}}" rel="stylesheet" type="text/css"/>
 <link href="{{=URL('static','css/add_post.css')}}" rel="stylesheet" type="text/css"/>
 {{block head}}
 <script>
   var upload = "{{=URL('upload', 'get_upload_url')}}";
   var download = "{{=URL('upload', 'get_download_url')}}";
   var add = "{{=URL('upload', 'add')}}"
+  var check = "{{=URL('upload', 'check')}}"
   var lookbook = "{{=URL('default', 'profile')}}"
 </script>
 <div class = "MyContent fill">
@@ -64,6 +63,11 @@
               <input type="text" v-model="tag"  v-on:blur="tagging = true" :class="{danger:TagError}" placeholder="#seperate #with #hashtags"/>
               <p v-if="TagError" style="color:red">Atleast one tag is required</p>
             </div>
+            <div class = "EnterTag">
+              <input type="text" v-model="shopping" v-on:keydown="check" :class="{danger:ShopError}" placeholder="Put in a shopping link"/>
+              <p v-if="ShopError" style="color:red">Unsafe link</p>
+            </div>
+
             <div class = "SubmitButton">
               <input type="submit" v-on:mouseover="tagging=true;submitting=true" value="Submit" class="btn btn-primary" :class="[ready ? '':'disable']" :disabled="!ready && clicked">
               </input>

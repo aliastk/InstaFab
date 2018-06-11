@@ -75,6 +75,7 @@ var app = function() {
     current_post.edit = !current_post.edit;
     self.vue.first_post = current_post.MyMessage;
     self.vue.first_title = current_post.Tags;
+    self.vue.ar = true;
     console.log(current_post)
   };
 
@@ -103,19 +104,19 @@ var app = function() {
 
   self.get_posts = function() {
     self.loading = true;
+    console.log(self.vue.start);
     $.post(get_posts, {
         start_idx: self.vue.start,
         end_idx: self.vue.end,
         search: self.vue.search
       },
       function(data) {
-        self.vue.posts = data.posts;
+        self.vue.posts = data.posts
         self.vue.has_more = data.has_more;
         self.vue.logged_in = data.logged_in;
         self.vue.user = data.user;
         self.vue.loading = false;
-        self.vue.start = self.vue.end;
-        self.vue.end = self.vue.start + 10;
+        self.vue.end = self.vue.end + 10;
         console.log(data);
       })
   };
@@ -145,6 +146,7 @@ var app = function() {
       post.voted = true;
     }
     // Complete as needed.
+
   self.vue = new Vue({
     el: "#vue-div",
     delimiters: ['${', '}'],
@@ -152,6 +154,7 @@ var app = function() {
     data: {
       search: "",
       posts: [],
+      comments: [],
       logged_in: false,
       has_more: false,
       user: null,
@@ -162,7 +165,8 @@ var app = function() {
       making_post: false,
       loading: false,
       start: 0,
-      end: 10
+      end: 10,
+      ar: true
     },
     methods: {
       edit_post: self.edit_post,

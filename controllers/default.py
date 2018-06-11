@@ -174,11 +174,8 @@ def LikeOrDislike():
     if(request.vars.vote is None):
         return "no vote"
     vote = request.vars.vote == 'true'
-    print(vote)
     check = db((db.Vote.Voter == auth.user) & (db.Vote.Post == id)).select(limitby=(0,1)).first();
-    print check
     if (check is not None):
-        print "record"
         check.UpVote = vote
         check.update_record()
         if vote:
@@ -188,7 +185,6 @@ def LikeOrDislike():
             check.Post.Dislikes+=1
             check.Post.Likes-=1
     else:
-        print "No record"
         check = db.Vote.insert(
             Voter = auth.user,
             Post = id,
@@ -200,8 +196,6 @@ def LikeOrDislike():
             check.Post.Likes+=1
         elif(vote == False):
             check.Post.Dislikes+=1
-
-        print "record"
 
     if(vote):
         check.Post.rating +=1
@@ -230,7 +224,6 @@ def get_posts():
             user = auth.user.username
 
         if(who=="true"):
-            print "true"
             query = query & (db.Posts.PostedBy==auth.user.username)
             searching = True
 
@@ -265,7 +258,7 @@ def get_posts_handler(query,favorites,start_idx,end_idx,logged_in,searching,user
 
     for i, r in enumerate(rows):
         print r
-        if i < end_idx - start_idx:
+        if i < end_idx-start_idx:
             if(r.id in favorites):
                 favorited = True
             else:
@@ -287,8 +280,8 @@ def get_posts_handler(query,favorites,start_idx,end_idx,logged_in,searching,user
                 edit = False,
                 voted = vote,
                 id = r.id,
-                Dislikes = r.Dislikes,
                 Shopping = r.Shopping,
+                Dislikes = r.Dislikes,
                 Tags = filter(None,r.Tags.split("#")),
                 FullTag = r.Tags,
                 favorited = favorited

@@ -1,6 +1,8 @@
 {{extend 'layout.html'}}
 {{block head}}
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
+<script defer src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+<script defer src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.6.0/aframe/build/aframe-ar.js"></script>
 <script>
     //var my_url = "{{=URL('api', 'my_method')}}";
     //var Switch = "{{=URL('api', 'Switch')}}";
@@ -29,14 +31,14 @@
   <div v-if="filteredPosts.length == 0" style="height:100%">
   </div>
 
-  <div class = "post" v-for="(post,index) in filteredPosts">
+  <div class = "post" v-for="(post,index) in filteredPosts" :key="post.id">
     <div class = "OuterCard">
       <div class = "blogpost">
 
 
 
 
-      <a v-if="user == post.PostedBy" class="EditPost" v-on:click="switch_to_edit(post)" href="#popup1" >
+      <a v-if="user == post.PostedBy" class="EditPost" v-on:click="switch_to_edit(post)" href="#popup2" >
           <i class="fa fa-edit fa-lg"></i>
       </a>
 
@@ -110,7 +112,6 @@
     </div>
 
 
-
     </div>
 
 
@@ -134,13 +135,10 @@
           ${post.Dislikes}
         </div>
         <div style="display:inline-block">
-          <a v-if="user == post.PostedBy" class="DeletePost">
-            <i v-on:click = "delete_post(post.id)"class="fa fa-trash-o fa-lg"></i>
-          </a>
         <!-- do not show trash can -->
         <!-- show the shobbing basket icon -->
-          <a v-else>
-            <i class="ShoppingIcon fa fa-shopping-basket"></i>
+          <a v-if="post.Shopping != null" v-bind:href="post.Shopping">
+            <i  class="ShoppingIcon fa fa-shopping-basket"></i>
           </a>
         </div>
 
@@ -152,6 +150,6 @@
   </div>
 
 </div>
-  <button v-if="has_more" v-click="find" class="third load"> Load More </button>
+  <button v-if="has_more" v-on:click="find" class="third load"> Load More </button>
 </div>
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>

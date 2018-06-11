@@ -66,13 +66,20 @@ var app = function() {
 
   self.add_to_post = function(data) {
     console.log("posting")
+    console.log(self.vue.shopping)
     $.post(add, {
       picture: data.get_url,
       MyMessage: self.vue.message,
-      Tags: self.vue.tag
+      Tags: self.vue.tag,
+      shopping: self.vue.shopping
     }, function(post) {
-      window.location.href = lookbook;
-      console.log(post)
+      if (post != "unsafe") {
+        window.location.href = lookbook;
+        console.log(post)
+      } else {
+        console.log(post)
+        self.vue.ShopError = true;
+      }
     });
   }
 
@@ -89,22 +96,6 @@ var app = function() {
     }
     self.vue.$uploadCrop.getCroppedCanvas().toBlob(self.cleanup,
       "image/png");
-    /*.then(
-      function(blob) {
-        //self.upload_file(blob);
-        self.vue.imageData = blob;
-        console.log(blob);
-        var reader2 = new FileReader();
-        reader2.onload = function(f) {
-          self.vue.imageUrl = f.target.result;
-          console.log(f.target.result);
-          self.vue.cropping = false;
-          self.vue.$uploadCrop.destroy();
-        }
-        reader2.readAsDataURL(blob);
-        //this.imageData = blob;
-      });*/
-
     return;
   }
 
@@ -123,7 +114,7 @@ var app = function() {
 
   self.submit = function() {
     self.vue.clicked = true;
-    if (self.vue.imageData == null || self.vue.tag == null) {
+    if (self.vue.imageData == null || self.vue.tag == null || self.vue.ShopError) {
       console.log("disabled")
       return
     }
@@ -144,6 +135,25 @@ var app = function() {
       });
   }
 
+  timer = null;
+  self.check = function() {
+
+    clearTimeout(timer);
+    timer = setTimeout(self.sendlink, 2000);
+  }
+
+  self.sendlink = function() {
+    console.log("sending")
+    $.post(check, {
+      link: self.vue.shopping
+    }, function(data) {
+      if (data == "unsafe") {
+        self.vue.ShopError = true
+      } else {
+        self.vue.ShopError = false
+      }
+    })
+  }
   self.refresh = function() {
     var reader = new FileReader();
     reader.onload = function(e) {
@@ -173,7 +183,8 @@ var app = function() {
       submit_help: "help",
       clicked: false,
       submitting: false,
-
+      shopping: null,
+      ShopError: false
     },
     methods: {
       previewImage: function(event) {
@@ -202,7 +213,8 @@ var app = function() {
       rotate: self.rotate,
       submit: self.submit,
       edit: self.edit,
-      refresh: self.refresh
+      refresh: self.refresh,
+      check: self.check
     },
     computed: {
       TagError() {
